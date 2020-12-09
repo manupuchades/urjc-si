@@ -1,0 +1,27 @@
+<html>
+<body>
+
+	<h3>Reviews</h3>
+	{{#reviews}} 
+		{{user}} {{rating}} <a href="/review/{{id}}/delete">  delete</a> <br>
+ 		{{comment}} <br> 
+ 	{{/reviews}} 
+ 	
+ 	{{^reviews}}
+		<p>No reviews yet.</p>
+	{{/reviews}}
+
+	<br>
+		<form action="/review/new" method="post">
+		<p>User: </p>
+		<input type='text' name='user' value='{{#user}}{{.}}{{/user}}'/>
+		<p>Rating:</p>
+		<input type='text' name='rating'/>
+		<p>Comment:</p>
+		<textarea name='comment' rows=5 cols=40></textarea>
+		
+		<input type='submit' value='Add review'/>
+	</form>
+
+</body>
+</html>

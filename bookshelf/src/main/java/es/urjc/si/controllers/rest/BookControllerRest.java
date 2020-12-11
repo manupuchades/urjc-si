@@ -5,6 +5,8 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import java.net.URI;
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ import es.urjc.si.services.BookService;
 import es.urjc.si.services.ReviewService;
 import es.urjc.si.transformers.BookTransformer;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,20 +40,21 @@ public class BookControllerRest {
 	@Autowired
 	private ReviewService reviewService;
 
-    @Operation(summary = "Get list of titles.")
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Books were returned.")})
+    @Operation(summary = "Get all books titles.")
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Books were returned.",
+    		content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BookTitleOutDto.class)))})})
 	@GetMapping("/")
-	public Collection<BookTitleOutDto> getItems() {
+	public Collection<BookTitleOutDto> getBooks() {
 		return BookTransformer.getTitlesCollection(bookService.findAll());
 	}
     
     @Operation(summary = "Get a book by its id")
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "Found the book", content = {@Content(mediaType = "application/json", schema = @Schema(implementation=BookWithReviewsOutDto.class))}),
-    		@ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
     		@ApiResponse(responseCode = "404", description = "Book not found", content = @Content) })
 	@GetMapping("/{id}")
-	public ResponseEntity<BookWithReviewsOutDto> getBook(@PathVariable long id) {
+	public ResponseEntity<BookWithReviewsOutDto> getBook(@Parameter(description = "the book id") @PathVariable long id) {
 		Book book = bookService.findById(id);
 
 		if (book != null) {
@@ -59,10 +64,13 @@ public class BookControllerRest {
 		}
 	}
 
-    @Operation(summary = "Create book.")
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Book created succesfully.")})
+    @Operation(summary = "Create new book.")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Book to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class)))
+    @ApiResponses(value = { 
+    		@ApiResponse(responseCode = "200", description = "Book created succesfully."),
+    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
 	@PostMapping("/")
-	public ResponseEntity<Book> createBook(@RequestBody Book book) {
+	public ResponseEntity<Book> createBook(@Parameter(description = "the book")@Valid @RequestBody Book book) {
 		bookService.save(book);
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(book.getId()).toUri();
 		return ResponseEntity.created(location).body(book);

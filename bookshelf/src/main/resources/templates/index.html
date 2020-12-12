@@ -1,25 +1,21 @@
-<html>
-<body>
 
-	{{>header}}
-
+{{>header}} 
+	
 	{{#welcome}}
-	<h1>Welcome to Bookshelf!</h1>
+		<h1>Welcome to Bookshelf!</h1>
 	{{/welcome}}
 
 	<h1>Books</h1>
-	{{#books}}
-	<a href="book/{{id}}">{{title}}, {{author}}</a><br>
-	{{/books}}
 	
+	{{#books}}
+		<a href="book/{{id}}">{{title}}, {{author}}</a><br> 
+	{{/books}} 
+		
 	{{^books}}
-	<p>No books found.</p>
+		<p>No books found.</p>
 	{{/books}}
 
 	<br>
-	<a href="book/new">Add Book to bookshelf</a>
+	<a href="book/new">Add Book to bookshelf</a> 
 	
-	{{>footer}}
-	
-</body>
-</html>
+{{>footer}}

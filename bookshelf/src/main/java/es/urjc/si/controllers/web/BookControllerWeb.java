@@ -38,20 +38,19 @@ public class BookControllerWeb {
 	private ReviewService reviewService;
 
 	@GetMapping("/")
-	public String showbooks(Model model, HttpSession session) {
+	public String showBooks(Model model, HttpSession session) {
 		model.addAttribute("books", bookService.findAll());
 		model.addAttribute("welcome", session.isNew());
 		return "index";
 	}
 
 	@GetMapping("/book/new")
-	public String newbookForm(Model model) {
-		model.addAttribute("user", userSession.getUser());
+	public String newbookForm() {
 		return "new_book";
 	}
 
 	@PostMapping("/book/new")
-	public String newbook(Model model, Book book, MultipartFile image) throws IOException {
+	public String newBook(Model model, Book book, MultipartFile image) throws IOException {
 		bookService.save(book);
 		imageService.saveImage(BOOKS_FOLDER, book.getId(), image);
 		model.addAttribute("title", book.getTitle());
@@ -59,7 +58,7 @@ public class BookControllerWeb {
 	}
 
 	@GetMapping("/book/{id}")
-	public String showbook(Model model, @PathVariable long id) {
+	public String showBook(Model model, @PathVariable long id) {
 		Book book = bookService.findById(id);
 		model.addAttribute("book", book);
 		model.addAttribute("reviews", reviewService.findAll(id));
@@ -74,7 +73,7 @@ public class BookControllerWeb {
 	}
 
 	@GetMapping("/book/{id}/delete")
-	public String deletebook(Model model, @PathVariable long id) throws IOException {
+	public String deleteBook(Model model, @PathVariable long id) throws IOException {
 		bookService.deleteById(id);
 		return "deleted_book";
 	}

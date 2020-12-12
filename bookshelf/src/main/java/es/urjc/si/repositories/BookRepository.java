@@ -27,6 +27,11 @@ public class BookRepository {
 				"The authors begin by describing what patterns are and how they can help you design object-oriented software. They then go on to systematically name, explain, evaluate, and catalog recurring designs in object-oriented systems. With Design Patterns as your guide, you will learn how these important patterns fit into the software development process, and how you can leverage them to solve your own design problems most efficiently.",
 				LocalDate.of(1980, 1, 17), "Addison Wesley",
 				"Design Patterns: Elements of Reusable Object-Oriented Software"));
+		
+		save(new Book("Martin Fowler",
+				"For more than twenty years, experienced programmers worldwide have relied on Martin Fowler’s Refactoring to improve the design of existing code and to enhance software maintainability, as well as to make existing code easier to understand.",
+				LocalDate.of(2018, 11, 20), "Addison Wesley",
+				"Refactoring: Improving the Design of Existing Code"));
 	}
 
 	public Collection<Book> findAll() {

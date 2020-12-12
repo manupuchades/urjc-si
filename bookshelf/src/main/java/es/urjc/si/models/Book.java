@@ -2,11 +2,14 @@ package es.urjc.si.models;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Book {
 
 	private Long id;
 	private String author;
 	private String description;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate edition;
 	private String publisher;
 	private String title;

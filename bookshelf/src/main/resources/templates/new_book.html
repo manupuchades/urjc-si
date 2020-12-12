@@ -1,14 +1,17 @@
-<html>
-<head>
-	<meta charset="UTF-8"/>
-</head>
-<body>
+
+{{>header}} 
+
 	<form action="/book/new" method="post" enctype="multipart/form-data">
 		<p>Author: </p>
 		<input type='text' name='author'/>
 		<p>Title:</p>
 		<input type='text' name='title'/>
-		<p>Text:</p>
+		<p>Publisher:</p>
+		<input type='text' name='publisher'/>
+		<p>Publication date:</p>
+		<input type='date' name='edition'/>
+		
+		<p>Description:</p>
 		<textarea name='description' rows=5 cols=40></textarea>
 		<p>Image file:</p>
 		<input type='file' name='image' accept=".jpg, .jpeg"/>	
@@ -17,5 +20,5 @@
 	</form>
 	
 	<a href="/">Back</a>
-</body>
-</html>
+
+{{>footer}}

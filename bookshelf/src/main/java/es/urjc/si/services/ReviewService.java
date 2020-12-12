@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import es.urjc.si.dtos.ReviewInDto;
 import es.urjc.si.models.Review;
 
 @Service
@@ -32,23 +31,13 @@ public class ReviewService {
 		return reviews.get(id);
 	}
 	
-	public long save(ReviewInDto reviewIn) {
+	public Review save(Review review) {
 
-		long id = nextId.getAndIncrement();
-		
-		Review review = new Review (reviewIn.getComment(), reviewIn.getRating(), reviewIn.getUser());
+		long id = nextId.getAndIncrement();		
 		review.setId(id);
 		this.reviews.put(id, review);
-		return id;
-	}
-
-	public void save(Review review) {
-
-		long id = nextId.getAndIncrement();
-
-		review.setId(id);
 		
-		this.reviews.put(id, review);
+		return review;
 	}
 
 	public void deleteById(long id) {

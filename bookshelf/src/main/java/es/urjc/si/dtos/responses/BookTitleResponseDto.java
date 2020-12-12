@@ -1,14 +1,17 @@
-package es.urjc.si.dtos;
+package es.urjc.si.dtos.responses;
 
 import es.urjc.si.models.Book;
 
-public class BookTitleOutDto {
+public class BookTitleResponseDto {
 
 	private Long id;
-
 	private String title;
+	
+	public BookTitleResponseDto() {
+		super();
+	}
 
-	public BookTitleOutDto(Book book) {
+	public BookTitleResponseDto(Book book) {
 		super();
 		this.id = book.getId();
 		this.title = book.getTitle();

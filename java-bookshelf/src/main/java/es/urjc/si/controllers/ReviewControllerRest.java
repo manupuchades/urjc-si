@@ -1,4 +1,4 @@
-package es.urjc.si.controllers.rest;
+package es.urjc.si.controllers;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 

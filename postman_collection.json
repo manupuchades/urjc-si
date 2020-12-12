@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "ce737372-d738-4e81-a532-05026e8293b1",
+		"name": "Bookshelf test collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Create review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}reviews/",
+							"host": [
+								"{{URL}}reviews"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}reviews/1",
+							"host": [
+								"{{URL}}reviews"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get Books titles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}books/",
+							"host": [
+								"{{URL}}books"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\": \"Andrew Hunt, Dave Thomas\",\r\n    \"description\": \"A useful approach to software design and construction that allows for efficient, profitable development of high quality products. Elements of the approach include specification development, customer relations, team management, design practices, development tools, and testing procedures. This approach is presented with the help of anecdotes and technical problems.\",\r\n    \"edition\": \"2000-10-20\",\r\n    \"publisher\": \"Addison-Wesley\",\r\n    \"title\": \"The Pragmatic Programmer: From Journeyman to Master\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}books/",
+							"host": [
+								"{{URL}}books"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}books/0",
+							"host": [
+								"{{URL}}books"
+							],
+							"path": [
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "2b61ca2d-1b81-4fe2-9b91-cc01b70caff2",
+			"key": "URL",
+			"value": "http://localhost:8080/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

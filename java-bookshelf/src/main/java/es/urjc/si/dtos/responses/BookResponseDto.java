@@ -1,6 +1,10 @@
 package es.urjc.si.dtos.responses;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import es.urjc.si.models.Book;
 
 public class BookResponseDto {
 
@@ -10,7 +14,9 @@ public class BookResponseDto {
 	private LocalDate edition;
 	private String publisher;
 	private String title;
-	
+
+	private Collection<BookReviewResponseDto> reviews;
+
 	public BookResponseDto() {
 		super();
 	}
@@ -24,6 +30,11 @@ public class BookResponseDto {
 		this.edition = edition;
 		this.publisher = publisher;
 		this.title = title;
+	}
+
+	public BookResponseDto(Book book, Collection<BookReviewResponseDto> reviews) {
+		this(book.getId(), book.getAuthor(), book.getDescription(), book.getEdition(), book.getPublisher(), book.getTitle());
+		this.reviews = new ArrayList<>(reviews);
 	}
 
 	public Long getId() {
@@ -72,5 +83,13 @@ public class BookResponseDto {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Collection<BookReviewResponseDto> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Collection<BookReviewResponseDto> reviews) {
+		this.reviews = reviews;
 	}
 }

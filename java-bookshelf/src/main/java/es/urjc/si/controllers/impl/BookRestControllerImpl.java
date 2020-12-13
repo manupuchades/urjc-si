@@ -17,40 +17,33 @@ import es.urjc.si.controllers.BookRestController;
 import es.urjc.si.dtos.requests.BookRequestDto;
 import es.urjc.si.dtos.responses.BookResponseDto;
 import es.urjc.si.dtos.responses.BookTitleResponseDto;
-import es.urjc.si.dtos.responses.BookWithReviewsResponseDto;
 import es.urjc.si.mappers.BookMapper;
-import es.urjc.si.mappers.ReviewMapper;
 import es.urjc.si.models.Book;
 import es.urjc.si.services.BookService;
-import es.urjc.si.services.ReviewService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@Tag(name = "Book", description = "the Book API")
 public class BookRestControllerImpl implements BookRestController{
 
 	@Autowired
 	private BookService bookService;
-
-	@Autowired
-	private ReviewService reviewService;
 	
 	@Autowired
 	private BookMapper bookMapper;
-	
-	@Autowired
-	private ReviewMapper reviewMapper;
 
     @Override
 	public Collection<BookTitleResponseDto> getBooks() {
-		return bookMapper.map(bookService.findAll());
+		return bookMapper.mapTitle(bookService.findAll());
 	}
     
     @Override
-	public ResponseEntity<BookWithReviewsResponseDto> getBook(@Parameter(description = "the book id") @PathVariable long id) {
+	public ResponseEntity<BookResponseDto> getBook(@Parameter(description = "the book id") @PathVariable long id) {
 		Book book = bookService.findById(id);
 
 		if (book != null) {
-			return ResponseEntity.ok(new BookWithReviewsResponseDto(bookMapper.map(book),reviewMapper.map(reviewService.findAll(id))));
+			return ResponseEntity.ok(bookMapper.map(book));
 		} else {
 			return ResponseEntity.notFound().build();
 		}

@@ -28,7 +28,9 @@ public class BookService {
 	}
 
 	public Book deleteById(long id) {
-		return this.bookRepository.deleteById(id).orElseThrow(BookNotFoundException::new);
+		Book book = bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
+		this.bookRepository.deleteById(id);
+		return book;
 	}
 
 }

@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.si.controllers.ReviewRestController;
 import es.urjc.si.dtos.requests.ReviewRequestDto;
-import es.urjc.si.dtos.responses.ReviewResponseDto;
+import es.urjc.si.dtos.responses.UserReviewResponseDto;
 import es.urjc.si.mappers.ReviewMapper;
 import es.urjc.si.models.Review;
 import es.urjc.si.services.ReviewService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@Tag(name = "Review", description = "the Review API")
 public class ReviewRestControllerImpl implements ReviewRestController{
 
 	@Autowired
@@ -28,16 +30,16 @@ public class ReviewRestControllerImpl implements ReviewRestController{
 	private ReviewMapper reviewMapper;
 
 	@Override
-	public ResponseEntity<ReviewResponseDto> createReview(@RequestBody ReviewRequestDto review) {
+	public ResponseEntity<UserReviewResponseDto> createReview(@RequestBody ReviewRequestDto review) {
 		Review savedReview = reviewService.save(reviewMapper.map(review));
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedReview.getId()).toUri();
-		return ResponseEntity.created(location).body(reviewMapper.map(savedReview));
+		return ResponseEntity.created(location).body(reviewMapper.mapUserReview(savedReview));
 	}
 
 	@Override
-	public ResponseEntity<ReviewResponseDto> deleteReview(
+	public ResponseEntity<UserReviewResponseDto> deleteReview(
 			@Parameter(description = "the review id") @PathVariable long id) {
-		return ResponseEntity.ok(reviewMapper.map(reviewService.deleteById(id)));
+		return ResponseEntity.ok(reviewMapper.mapUserReview(reviewService.deleteById(id)));
 	}
 
 }

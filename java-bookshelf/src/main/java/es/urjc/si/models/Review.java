@@ -1,24 +1,31 @@
 package es.urjc.si.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Review {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long book_id;
+	@ManyToOne
+	private Book book;
 	private String comment;
 	private int rating;
-	private String user;
-	
+	@ManyToOne
+	private User user;
+
 	public Review() {
 		super();
 	}
 
-	public Review(long book_id, String comment, int rating, String user) {
-		this(comment, rating, user);
-		this.book_id = book_id;
-	}
-	
-	public Review(String comment, int rating, String user) {
+	public Review(Book book, String comment, int rating, User user) {
 		super();
+		this.book = book;
 		this.comment = comment;
 		this.rating = rating;
 		this.user = user;
@@ -27,40 +34,40 @@ public class Review {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public Long getBook_id() {
-		return book_id;
+
+	public Book getBook() {
+		return book;
 	}
 
-	public void setBook_id(Long book_id) {
-		this.book_id = book_id;
+	public void setBook(Book book) {
+		this.book = book;
 	}
 
 	public String getComment() {
 		return comment;
 	}
-	
+
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
 	public int getRating() {
 		return rating;
 	}
-	
+
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
-	public String getUser() {
+
+	public User getUser() {
 		return user;
 	}
-	
-	public void setUser(String user) {
+
+	public void setUser(User user) {
 		this.user = user;
 	}
 

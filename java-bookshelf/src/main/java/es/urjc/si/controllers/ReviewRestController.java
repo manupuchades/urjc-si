@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.urjc.si.dtos.requests.ReviewRequestDto;
-import es.urjc.si.dtos.responses.ReviewResponseDto;
+import es.urjc.si.dtos.responses.UserReviewResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,13 +26,13 @@ public interface ReviewRestController {
 			@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
 			@ApiResponse(responseCode = "404", description = "Book not found", content = @Content) })
 	@PostMapping("/")
-	public ResponseEntity<ReviewResponseDto> createReview(@RequestBody ReviewRequestDto review);
+	public ResponseEntity<UserReviewResponseDto> createReview(@RequestBody ReviewRequestDto review);
 
 	@Operation(summary = "Delete review")
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "200", description = "Review deleted successfully."),
 			@ApiResponse(responseCode = "404", description = "Review not found.") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ReviewResponseDto> deleteReview(
+	public ResponseEntity<UserReviewResponseDto> deleteReview(
 			@Parameter(description = "the review id") @PathVariable long id);
 }

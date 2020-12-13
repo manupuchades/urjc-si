@@ -1,17 +1,16 @@
 package es.urjc.si.dtos.responses;
 
-public class ReviewResponseDto {
-
+public class BookReviewResponseDto {
 	private Long id;
 	private String comment;
 	private int rating;
-	private String user;
+	private UserResponseDto user;
 
-	public ReviewResponseDto() {
+	public BookReviewResponseDto() {
 		super();
 	}
 
-	public ReviewResponseDto(Long id, String comment, int rating, String user) {
+	public BookReviewResponseDto(Long id, String comment, int rating, UserResponseDto user) {
 		super();
 		this.id = id;
 		this.comment = comment;
@@ -43,11 +42,11 @@ public class ReviewResponseDto {
 		this.rating = rating;
 	}
 
-	public String getUser() {
+	public UserResponseDto getUser() {
 		return user;
 	}
 
-	public void setUser(String user) {
+	public void setUser(UserResponseDto user) {
 		this.user = user;
 	}
 }

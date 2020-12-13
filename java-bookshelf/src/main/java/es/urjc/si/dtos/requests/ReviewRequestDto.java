@@ -7,57 +7,57 @@ import javax.validation.constraints.Size;
 
 public class ReviewRequestDto {
 
-    @NotBlank(message = "Book id is mandatory")
-	private Long book_id;
-	
+	@NotBlank(message = "Book id is mandatory")
+	private Long bookId;
+
 	private String comment;
-	
-    @NotBlank (message = "Rating is mandatory")
-    @Min(value = 0, message = "Score must be equals or greater than 0")
-    @Max(value = 5, message = "Score must be equals or less than 5")
+
+	@NotBlank(message = "Rating is mandatory")
+	@Min(value = 0, message = "Score must be equals or greater than 0")
+	@Max(value = 5, message = "Score must be equals or less than 5")
 	private int rating;
-	
-	@NotBlank (message = "User is mandatory")
-    @Size(min = 0, max = 30)
-	private String user;
-	
-	public ReviewRequestDto(Long book_id, String comment, int rating, String user) {
+
+	@NotBlank(message = "User nick name is mandatory")
+	@Size(min = 0, max = 30)
+	private String userNick;
+
+	public ReviewRequestDto(Long bookId, String comment, int rating, String userNick) {
 		super();
-		this.book_id = book_id;
+		this.bookId = bookId;
 		this.comment = comment;
 		this.rating = rating;
-		this.user = user;
+		this.userNick = userNick;
 	}
 
-	public Long getBook_id() {
-		return book_id;
-	}
-	
-	public void setBook_id(Long book_id) {
-		this.book_id = book_id;
-	}
-	
 	public String getComment() {
 		return comment;
 	}
-	
+
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
 	public int getRating() {
 		return rating;
 	}
-	
+
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
-	public String getUser() {
-		return user;
+
+	public Long getBookId() {
+		return bookId;
 	}
-	
-	public void setUser(String user) {
-		this.user = user;
+
+	public void setBookId(Long bookId) {
+		this.bookId = bookId;
+	}
+
+	public String getUserNick() {
+		return userNick;
+	}
+
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
 	}
 }

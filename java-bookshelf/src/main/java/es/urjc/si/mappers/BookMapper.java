@@ -13,7 +13,9 @@ import es.urjc.si.models.Book;
 @Component
 public class BookMapper {
 
-	public Collection<BookTitleResponseDto> map(Collection<Book> books) {
+	ReviewMapper reviewMapper;
+
+	public Collection<BookTitleResponseDto> mapTitle(Collection<Book> books) {
 		Collection<BookTitleResponseDto> responseDto = new ArrayList<>();
 
 		for (Book book : books) {
@@ -23,8 +25,19 @@ public class BookMapper {
 		return responseDto;
 	}
 
+	public Collection<BookResponseDto> mapBook(Collection<Book> books) {
+		Collection<BookResponseDto> responseDto = new ArrayList<>();
+		
+		for (Book book : books) {
+			responseDto.add(new BookResponseDto(book, reviewMapper.mapBookReview(book.getReviews())));
+		}
+
+		return responseDto;
+	}
+
 	public BookResponseDto map(Book book) {
-		return new BookResponseDto(book.getId(), book.getAuthor(), book.getDescription(), book.getEdition(), book.getPublisher(), book.getTitle());
+		return new BookResponseDto(book.getId(), book.getAuthor(), book.getDescription(), book.getEdition(),
+				book.getPublisher(), book.getTitle());
 	}
 
 	public Book map(BookRequestDto dto) {

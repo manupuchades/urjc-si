@@ -13,7 +13,7 @@ let apiRoutes = require("./api-routes/api-routes")
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 // Connect to Mongoose and set connection variable
 mongoose.connect('mongodb://localhost/bookshelf', { useNewUrlParser: true});
@@ -29,7 +29,7 @@ else
 var port = process.env.PORT || 8080;
 
 // Use Api routes in the App
-app.use('/api', apiRoutes)
+app.use(apiRoutes);
 
 // Launch app to listen to specified port
 app.listen(port, function () {

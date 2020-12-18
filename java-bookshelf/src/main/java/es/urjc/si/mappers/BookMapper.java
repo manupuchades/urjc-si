@@ -36,8 +36,8 @@ public class BookMapper {
 	}
 
 	public BookResponseDto map(Book book) {
-		return new BookResponseDto(book.getId(), book.getAuthor(), book.getDescription(), book.getEdition(),
-				book.getPublisher(), book.getTitle());
+		System.out.println(book);
+		return new BookResponseDto(book, reviewMapper.mapBookReview(book.getReviews()));
 	}
 
 	public Book map(BookRequestDto dto) {

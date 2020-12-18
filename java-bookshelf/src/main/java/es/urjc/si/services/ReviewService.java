@@ -26,7 +26,7 @@ public class ReviewService {
 	}
 	
 	public Review save(Review review) {
-		Book book = bookService.findById(review.getUser().getId());
+		Book book = bookService.findById(review.getBook().getId());
 		User user = userService.findByNick(review.getUser().getNick());
 		
 		review.setBook(book);

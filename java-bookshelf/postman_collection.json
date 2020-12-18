@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "1aeccb95-c1e7-4631-b1af-c12fd5146820",
+		"name": "Bookshelf test collection v2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Create review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{URL}}reviews/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{URL}}reviews/1"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get Books titles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}books/"
+					},
+					"response": []
+				},
+				{
+					"name": "Create book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\": \"Andrew Hunt, Dave Thomas\",\r\n    \"description\": \"A useful approach to software design and construction that allows for efficient, profitable development of high quality products. Elements of the approach include specification development, customer relations, team management, design practices, development tools, and testing procedures. This approach is presented with the help of anecdotes and technical problems.\",\r\n    \"edition\": \"2000-10-20\",\r\n    \"publisher\": \"Addison-Wesley\",\r\n    \"title\": \"The Pragmatic Programmer: From Journeyman to Master\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}books/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}books/0"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}users/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reviews from User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}users/1/reviews"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "ce87aef2-7a39-405d-8a82-30ea20dfd61e",
+			"key": "URL",
+			"value": "http://localhost:8080/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

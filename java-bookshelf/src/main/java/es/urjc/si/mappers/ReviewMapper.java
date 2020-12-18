@@ -44,7 +44,7 @@ public class ReviewMapper {
 	}
 	
 	public UserReviewResponseDto mapUserReview(Review review) {
-		return new UserReviewResponseDto(review.getId(), review.getComment(), review.getRating(), review.getUser(), review.getBook().getId());
+		return new UserReviewResponseDto(review.getId(), review.getComment(), review.getRating(), review.getBook().getId());
 	}
 	
 	public Review map(ReviewRequestDto dto) {

@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class User {
 
@@ -19,6 +21,7 @@ public class User {
 	private String email;
 	@Column(unique = true)
 	private String nick;
+	@JsonManagedReference
 	@OneToMany(mappedBy = "user")
 	private List<Review> reviews;
 

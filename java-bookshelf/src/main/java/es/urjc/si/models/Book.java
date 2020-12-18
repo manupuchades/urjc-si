@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Book {
 
@@ -20,10 +23,12 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String author;
+	@Column(length = 1024)
 	private String description;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate edition;
 	private String publisher;
+	@JsonManagedReference
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Review> reviews;
 	private String title;
@@ -106,6 +111,6 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", author=" + author + ", description=" + description + ", edition=" + edition
-				+ ", publisher=" + publisher + ", title=" + title + "]";
+				+ ", publisher=" + publisher + ", reviews=" + reviews + ", title=" + title + "]";
 	}
 }

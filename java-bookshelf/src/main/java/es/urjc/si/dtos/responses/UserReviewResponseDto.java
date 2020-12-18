@@ -7,19 +7,17 @@ public class UserReviewResponseDto {
 	private Long id;
 	private String comment;
 	private int rating;
-	private User user;
 	private Long bookId;
 
 	public UserReviewResponseDto() {
 		super();
 	}
 
-	public UserReviewResponseDto(Long id, String comment, int rating, User user, long bookId) {
+	public UserReviewResponseDto(Long id, String comment, int rating, long bookId) {
 		super();
 		this.id = id;
 		this.comment = comment;
 		this.rating = rating;
-		this.user = user;
 	}
 
 	public Long getId() {
@@ -44,14 +42,6 @@ public class UserReviewResponseDto {
 
 	public void setRating(int rating) {
 		this.rating = rating;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Long getBookId() {

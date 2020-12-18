@@ -6,16 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Review {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@JsonBackReference
 	@ManyToOne
 	private Book book;
 	private String comment;
 	private int rating;
+	@JsonBackReference
 	@ManyToOne
 	private User user;
 

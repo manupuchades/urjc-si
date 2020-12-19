@@ -9,14 +9,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.si.controllers.UserRestController;
-import es.urjc.si.dtos.requests.UserRequestDto;
-import es.urjc.si.dtos.responses.UserReviewResponseDto;
-import es.urjc.si.dtos.responses.UserResponseDto;
+import es.urjc.si.dtos.requests.user.CreateUserRequestDto;
+import es.urjc.si.dtos.responses.review.UserReviewResponseDto;
+import es.urjc.si.dtos.responses.user.UserResponseDto;
 import es.urjc.si.mappers.ReviewMapper;
 import es.urjc.si.mappers.UserMapper;
 import es.urjc.si.models.User;
@@ -27,18 +26,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "User", description = "the User API")
 public class UserRestControllerImpl implements UserRestController{
 
-	@Autowired
 	private UserService userService;
 	
-	@Autowired
 	private UserMapper userMapper;
 	
-	@Autowired
 	private ReviewMapper reviewMapper;
+	
+    public UserRestControllerImpl(UserService userService, UserMapper userMapper, ReviewMapper reviewMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+        this.reviewMapper = reviewMapper;
+    }
 	
 	@Override
 	public Collection<UserResponseDto> getUsers() {
-		return userMapper.map(userService.findAll());
+		return userMapper.mapToUserResponseDto(userService.findAll());
 	}
 
 	@Override
@@ -46,27 +48,27 @@ public class UserRestControllerImpl implements UserRestController{
 		User user = userService.findById(id);
 
 		if (user != null) {
-			return ResponseEntity.ok(userMapper.map(user));
+			return ResponseEntity.ok(userMapper.mapToUserResponseDto(user));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@Override
-	public ResponseEntity<UserResponseDto> createUser(@Valid UserRequestDto user) {
-		User savedUser = userService.save(userMapper.map(user));
+	public ResponseEntity<UserResponseDto> createUser(@Valid CreateUserRequestDto user) {
+		User savedUser = userService.save(userMapper.mapToUser(user));
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
-		return ResponseEntity.created(location).body(userMapper.map(savedUser));
+		return ResponseEntity.created(location).body(userMapper.mapToUserResponseDto(savedUser));
 	}
 
 	@Override
-	public ResponseEntity<UserResponseDto> updateUser(@Valid UserRequestDto user) {
-		return ResponseEntity.ok(userMapper.map(userService.update(userMapper.map(user))));
+	public ResponseEntity<UserResponseDto> updateUser(@Valid CreateUserRequestDto user) {
+		return ResponseEntity.ok(userMapper.mapToUserResponseDto(userService.update(userMapper.mapToUser(user))));
 	}
 
 	@Override
 	public ResponseEntity<UserResponseDto> deleteUser(long id) {
-		return ResponseEntity.ok(userMapper.map(userService.deleteById(id)));
+		return ResponseEntity.ok(userMapper.mapToUserResponseDto(userService.deleteById(id)));
 	}
 	
     @Override

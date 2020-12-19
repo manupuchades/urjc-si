@@ -6,9 +6,9 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.urjc.si.dtos.requests.ReviewRequestDto;
-import es.urjc.si.dtos.responses.BookReviewResponseDto;
-import es.urjc.si.dtos.responses.UserReviewResponseDto;
+import es.urjc.si.dtos.requests.review.ReviewRequestDto;
+import es.urjc.si.dtos.responses.review.BookReviewResponseDto;
+import es.urjc.si.dtos.responses.review.UserReviewResponseDto;
 import es.urjc.si.models.Book;
 import es.urjc.si.models.Review;
 import es.urjc.si.models.User;
@@ -16,8 +16,11 @@ import es.urjc.si.models.User;
 @Component
 public class ReviewMapper {
 		
-	@Autowired
 	UserMapper userMapper;
+	
+	public ReviewMapper (UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
 	
 	public Collection<UserReviewResponseDto> mapUserReview(Collection<Review> reviews) {
 		Collection<UserReviewResponseDto> responseDto = new ArrayList<>();
@@ -40,11 +43,11 @@ public class ReviewMapper {
 	}
 	
 	public BookReviewResponseDto mapBookReview(Review review) {
-		return new BookReviewResponseDto(review.getId(), review.getComment(), review.getRating(), userMapper.map(review.getUser()));
+		return BookReviewResponseDto.builder().id(review.getId()).comment(review.getComment()).rating(review.getRating()).user(userMapper.mapToReviewUserResponseDto(review.getUser())).build();
 	}
 	
 	public UserReviewResponseDto mapUserReview(Review review) {
-		return new UserReviewResponseDto(review.getId(), review.getComment(), review.getRating(), review.getBook().getId());
+		return UserReviewResponseDto.builder().id(review.getId()).comment(review.getComment()).rating(review.getRating()).bookId(review.getBook().getId()).build();
 	}
 	
 	public Review map(ReviewRequestDto dto) {

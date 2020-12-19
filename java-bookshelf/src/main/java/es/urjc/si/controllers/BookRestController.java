@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import es.urjc.si.dtos.requests.BookRequestDto;
-import es.urjc.si.dtos.responses.BookResponseDto;
-import es.urjc.si.dtos.responses.BookTitleResponseDto;
+import es.urjc.si.dtos.requests.book.BookRequestDto;
+import es.urjc.si.dtos.responses.book.BookDetailsResponseDto;
+import es.urjc.si.dtos.responses.book.BookTitleResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -33,11 +33,11 @@ public interface BookRestController {
     
     @Operation(summary = "Get a book by its id")
     @ApiResponses(value = { 
-    		@ApiResponse(responseCode = "200", description = "Found the book", content = {@Content(mediaType = "application/json", schema = @Schema(implementation=BookResponseDto.class))}),
+    		@ApiResponse(responseCode = "200", description = "Found the book", content = {@Content(mediaType = "application/json", schema = @Schema(implementation=BookDetailsResponseDto.class))}),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
     		@ApiResponse(responseCode = "404", description = "Book not found", content = @Content) })
 	@GetMapping("/{id}")
-	public ResponseEntity<BookResponseDto> getBook(@Parameter(description = "the book id") @PathVariable long id);
+	public ResponseEntity<BookDetailsResponseDto> getBook(@Parameter(description = "the book id") @PathVariable long id);
     
     @Operation(summary = "Create new book.")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Book to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookRequestDto.class)))
@@ -45,5 +45,5 @@ public interface BookRestController {
     		@ApiResponse(responseCode = "200", description = "Book created succesfully."),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
 	@PostMapping("/")
-	public ResponseEntity<BookResponseDto> createBook(@Parameter(description = "the book")@Valid @RequestBody BookRequestDto book);
+	public ResponseEntity<BookDetailsResponseDto> createBook(@Parameter(description = "the book")@Valid @RequestBody BookRequestDto book);
 }

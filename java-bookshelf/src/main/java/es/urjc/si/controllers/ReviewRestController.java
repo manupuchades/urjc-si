@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import es.urjc.si.dtos.requests.ReviewRequestDto;
-import es.urjc.si.dtos.responses.UserReviewResponseDto;
+import es.urjc.si.dtos.requests.review.ReviewRequestDto;
+import es.urjc.si.dtos.responses.review.UserReviewResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

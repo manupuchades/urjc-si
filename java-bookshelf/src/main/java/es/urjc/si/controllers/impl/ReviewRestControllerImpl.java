@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.si.controllers.ReviewRestController;
-import es.urjc.si.dtos.requests.ReviewRequestDto;
-import es.urjc.si.dtos.responses.UserReviewResponseDto;
+import es.urjc.si.dtos.requests.review.ReviewRequestDto;
+import es.urjc.si.dtos.responses.review.UserReviewResponseDto;
 import es.urjc.si.mappers.ReviewMapper;
 import es.urjc.si.models.Review;
 import es.urjc.si.services.ReviewService;
@@ -28,6 +28,11 @@ public class ReviewRestControllerImpl implements ReviewRestController{
 
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+    public ReviewRestControllerImpl(ReviewService reviewService, ReviewMapper reviewMapper) {
+        this.reviewService = reviewService;
+        this.reviewMapper = reviewMapper;
+    }
 
 	@Override
 	public ResponseEntity<UserReviewResponseDto> createReview(@RequestBody ReviewRequestDto review) {

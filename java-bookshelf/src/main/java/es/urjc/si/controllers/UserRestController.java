@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import es.urjc.si.dtos.requests.UserRequestDto;
-import es.urjc.si.dtos.responses.UserReviewResponseDto;
-import es.urjc.si.dtos.responses.UserResponseDto;
+import es.urjc.si.dtos.requests.user.CreateUserRequestDto;
+import es.urjc.si.dtos.responses.review.UserReviewResponseDto;
+import es.urjc.si.dtos.responses.user.UserResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -42,21 +42,21 @@ public interface UserRestController {
 	public ResponseEntity<UserResponseDto> getUser(@Parameter(description = "the user id") @PathVariable long id);
     
     @Operation(summary = "Create new user")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class)))
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateUserRequestDto.class)))
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "User created succesfully."),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
 	@PostMapping("/")
-	public ResponseEntity<UserResponseDto> createUser(@Parameter(description = "the user")@Valid @RequestBody UserRequestDto user);
+	public ResponseEntity<UserResponseDto> createUser(@Parameter(description = "the user")@Valid @RequestBody CreateUserRequestDto user);
     
     @Operation(summary = "Update user")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be updated", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class)))
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be updated", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateUserRequestDto.class)))
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "User updated succesfully."),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
     		@ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
 	@PatchMapping("/{id}")
-	public ResponseEntity<UserResponseDto> updateUser(@Parameter(description = "the user")@Valid @RequestBody UserRequestDto user);
+	public ResponseEntity<UserResponseDto> updateUser(@Parameter(description = "the user")@Valid @RequestBody CreateUserRequestDto user);
     
     @Operation(summary = "Delete user")
     @ApiResponses(value = { 

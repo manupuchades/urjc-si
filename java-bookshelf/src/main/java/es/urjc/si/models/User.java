@@ -1,7 +1,7 @@
 package es.urjc.si.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,14 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
+
 @Entity
+@Data
+@Builder
+@ToString(exclude = "reviews")
 public class User {
 
 	@Id
@@ -22,59 +29,8 @@ public class User {
 	@Column(unique = true)
 	private String nick;
 	@JsonManagedReference
-	@OneToMany(mappedBy = "user")
-	private List<Review> reviews;
-
-	public User() {
-		super();
-	}
-
-	public User(String email, String nick) {
-		super();
-		this.email = email;
-		this.nick = nick;
-	}
 	
-	public User(String email, String nick, List<Review> reviews) {
-		this(email, nick);
-		this.reviews = new ArrayList<>(reviews);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public List<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", nick=" + nick + ", reviews=" + reviews + "]";
-	}
+	@OneToMany(mappedBy = "user")
+	private Collection<Review> reviews = Collections.emptyList();;
 
 }

@@ -36,11 +36,10 @@ public class BookMapper {
 	}
 
 	public BookResponseDto map(Book book) {
-		System.out.println(book);
 		return new BookResponseDto(book, reviewMapper.mapBookReview(book.getReviews()));
 	}
 
 	public Book map(BookRequestDto dto) {
-		return new Book(dto.getAuthor(), dto.getDescription(), dto.getEdition(), dto.getPublisher(), dto.getTitle());
+		return Book.builder().author(dto.getAuthor()).description(dto.getDescription()).edition(dto.getEdition()).publisher(dto.getPublisher()).title(dto.getTitle()).build();
 	}
 }

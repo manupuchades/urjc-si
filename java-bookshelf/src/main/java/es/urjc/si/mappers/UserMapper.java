@@ -27,6 +27,6 @@ public class UserMapper {
 	}
 	
 	public User map(UserRequestDto dto) {
-		return new User(dto.getEmail(), dto.getNick());
+		return User.builder().email(dto.getEmail()).nick(dto.getNick()).build();
 	}
 }

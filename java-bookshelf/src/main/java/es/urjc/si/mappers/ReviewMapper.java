@@ -48,12 +48,9 @@ public class ReviewMapper {
 	}
 	
 	public Review map(ReviewRequestDto dto) {
-		Book book = new Book ();
-		book.setId(dto.getBookId());
+		Book book = Book.builder().id(dto.getBookId()).build();
+		User user = User.builder().nick(dto.getUserNick()).build();
 		
-		User user = new User();
-		user.setNick(dto.getUserNick());
-		
-		return new Review(book, dto.getComment(), dto.getRating(), user);
+		return Review.builder().book(book).comment(dto.getComment()).rating(dto.getRating()).user(user).build();
 	}
 }

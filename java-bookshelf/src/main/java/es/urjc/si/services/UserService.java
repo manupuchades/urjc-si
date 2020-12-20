@@ -2,20 +2,18 @@ package es.urjc.si.services;
 
 import java.util.Collection;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.urjc.si.exceptions.UserNotFoundException;
 import es.urjc.si.models.Review;
 import es.urjc.si.models.User;
 import es.urjc.si.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-	@Autowired
 	UserRepository userRepository;
 	
 	public Collection<User> findAll() {
@@ -37,7 +35,7 @@ public class UserService {
 	}
 	
 	public User update(User input) {
-		User user = userRepository.findByNick(input.getNick()).orElseThrow(UserNotFoundException::new);
+		User user = findByNick(input.getNick());
 		user.setEmail(input.getEmail());
 		return userRepository.save(user);
 	}

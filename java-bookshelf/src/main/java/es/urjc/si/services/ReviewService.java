@@ -1,6 +1,5 @@
 package es.urjc.si.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.urjc.si.exceptions.ReviewNotFoundException;
@@ -8,17 +7,16 @@ import es.urjc.si.models.Book;
 import es.urjc.si.models.Review;
 import es.urjc.si.models.User;
 import es.urjc.si.repositories.ReviewRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class ReviewService {
 	
-	@Autowired
 	BookService bookService;
 	
-	@Autowired
 	UserService userService;
 	
-	@Autowired
 	ReviewRepository reviewRepository;
 
 	public Review findById(long id) {

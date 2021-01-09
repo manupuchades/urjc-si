@@ -24,3 +24,12 @@ hs_err_pid*
 
 # eclipse
 .settings
+.gitignore
+.mvn/
+
+# node
+node_modules
+build
+npm-debug.log
+.env
+.DS_Store

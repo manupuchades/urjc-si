@@ -1,0 +1,46 @@
+<html lang="ES">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <script src="client.js"></script>
+
+    <title>The Eolo Planner</title>
+</head>
+
+<body onload= "loadList()">
+    <!-- Footer -->
+    <header>
+        <div class="navbar navbar-default fixed-top">
+            <a class="navbar-brand" href="/">Welcome to EoloPlanner</a>
+        </div>
+    </header>
+
+    <!-- Body -->
+    <div>
+        <h1>Current plants: </h1>
+        <ul id="eoloplants-list"></ol>
+    </div>
+
+    <div>
+        <h1>Add Eoloplant: </h1>
+        <input type="text" id="city-name" placeholder="City name">
+        <button id="add-plant-button" onclick="addPlant()">Add</button>
+        <div id="progress"></div>
+    </div>
+
+    <br><br>
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="navbar navbar-default fixed-bottom">
+            <p class="navbar-text"> Evaluaci&oacute;n continua Pr&aacute;ctica 3 : Manuel Puchades
+                <a href="https://www.codeurjc.es/" data-toogle="tooltip" title="Code URJC">Master Cloud Apps</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 const WebSocket = require('ws');
 
+const wss = new WebSocket.Server();
+
 var wsconnection;
 
 exports.connection = () => {
@@ -8,7 +10,7 @@ exports.connection = () => {
         console.log('User connected');
         
         ws.on('message', function (msg) {
-            console.log('Message received:' + msg);
+            console.log('WebSocket message received:' + msg);
         });
     });
 };

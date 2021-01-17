@@ -1,15 +1,19 @@
-package es.urjc.si.services;
+package es.urjc.si.services.utils;
 
 import java.time.LocalDate;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.urjc.si.models.Book;
 import es.urjc.si.models.Review;
 import es.urjc.si.models.User;
+import es.urjc.si.services.BookService;
+import es.urjc.si.services.ReviewService;
+import es.urjc.si.services.UserService;
 
 @Service
 public class DBPopulator {
@@ -23,13 +27,17 @@ public class DBPopulator {
 	@Autowired
 	ReviewService reviews;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
     @PostConstruct
     public void populate() {
     
-        User u1 = users.save(User.builder().email("user1@mail.com").nick("user1").build());
-        User u2 = users.save(User.builder().email("user2@mail.com").nick("user2").build());
-        User u3 = users.save(User.builder().email("user3@mail.com").nick("user3").build());
-        User u4 = users.save(User.builder().email("user4@mail.com").nick("user4").build());
+        User admin = users.save(User.builder().email("admin@mail.com").nick("admin").password(bCryptPasswordEncoder.encode("password")).build());
+        User u1 = users.save(User.builder().email("user1@mail.com").nick("user1").password(bCryptPasswordEncoder.encode("password")).build());
+        User u2 = users.save(User.builder().email("user2@mail.com").nick("user2").password(bCryptPasswordEncoder.encode("password")).build());
+        User u3 = users.save(User.builder().email("user3@mail.com").nick("user3").password(bCryptPasswordEncoder.encode("password")).build());
+        User u4 = users.save(User.builder().email("user4@mail.com").nick("user4").password(bCryptPasswordEncoder.encode("password")).build());
         
         Book b1 = books.save(Book.builder().author("Robert C. Martin").description("Martin has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code.")
 				.edition(LocalDate.of(2008, 8, 1)).publisher("Pearson").title("Clean Code: A Handbook of Agile Software Craftsmanship").build());

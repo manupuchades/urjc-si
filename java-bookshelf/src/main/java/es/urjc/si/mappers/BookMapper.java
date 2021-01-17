@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import es.urjc.si.dtos.requests.book.BookRequestDto;
 import es.urjc.si.dtos.responses.book.BookDetailsResponseDto;
+import es.urjc.si.dtos.responses.book.BookResponseDto;
 import es.urjc.si.dtos.responses.book.BookTitleResponseDto;
 import es.urjc.si.models.Book;
 
@@ -46,6 +47,11 @@ public class BookMapper {
 	public BookDetailsResponseDto mapToBookDetailsResponseDto(Book book) {
 		return BookDetailsResponseDto.builder().id(book.getId()).author(book.getAuthor()).description(book.getDescription()).edition(book.getEdition())
 				.publisher(book.getPublisher()).reviews(reviewMapper.mapBookReview(book.getReviews())).title(book.getTitle()).build();
+	}
+	
+	public BookResponseDto mapToBookResponseDto(Book book) {
+		return BookResponseDto.builder().id(book.getId()).author(book.getAuthor()).description(book.getDescription()).edition(book.getEdition())
+				.publisher(book.getPublisher()).title(book.getTitle()).build();
 	}
 
 	public Book mapToBook(BookRequestDto dto) {

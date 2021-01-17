@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.urjc.si.dtos.requests.user.CreateUserRequestDto;
+import es.urjc.si.dtos.requests.user.UserLoginRequestDto;
 import es.urjc.si.dtos.responses.review.UserReviewResponseDto;
 import es.urjc.si.dtos.responses.user.UserResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,47 +29,66 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface UserRestController {
 	
     @Operation(summary = "Get all users")
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Users were returned.",
-    		content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class)))})})
+    @ApiResponses(value = { 
+    		@ApiResponse(responseCode = "200", description = "Users were returned.",
+    		content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class)))}),
+    		@ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@GetMapping("/")
 	public Collection<UserResponseDto> getUsers();
+    
+    @Operation(summary = "User Login")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User credentials", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserLoginRequestDto.class)))
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "User registered succesfully."),
+    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Parameter(description = "the user credentials")@Valid @RequestBody UserLoginRequestDto user);
+    
+    @Operation(summary = "Register user")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be registered", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateUserRequestDto.class)))
+    @ApiResponses(value = { 
+    		@ApiResponse(responseCode = "200", description = "User registered succesfully."),
+    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
+	@PostMapping("/register")
+	public ResponseEntity<UserResponseDto> createUser(@Parameter(description = "the user")@Valid @RequestBody CreateUserRequestDto user);
     
     @Operation(summary = "Get a user by its id")
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "Found the user", content = {@Content(mediaType = "application/json", schema = @Schema(implementation=UserResponseDto.class))}),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
-    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
+    		@ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@GetMapping("/{id}")
 	public ResponseEntity<UserResponseDto> getUser(@Parameter(description = "the user id") @PathVariable long id);
-    
-    @Operation(summary = "Create new user")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateUserRequestDto.class)))
-    @ApiResponses(value = { 
-    		@ApiResponse(responseCode = "200", description = "User created succesfully."),
-    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
-	@PostMapping("/")
-	public ResponseEntity<UserResponseDto> createUser(@Parameter(description = "the user")@Valid @RequestBody CreateUserRequestDto user);
     
     @Operation(summary = "Update user")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User to be updated", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateUserRequestDto.class)))
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "User updated succesfully."),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
-    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
+    		@ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@PatchMapping("/{id}")
 	public ResponseEntity<UserResponseDto> updateUser(@Parameter(description = "the user")@Valid @RequestBody CreateUserRequestDto user);
     
     @Operation(summary = "Delete user")
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "User deleted succesfully."),
-    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
+    	    @ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
     @DeleteMapping("/{id}")
 	public ResponseEntity<UserResponseDto> deleteUser(@Parameter(description = "the user id") @PathVariable long id);
 
     @Operation(summary = "Get all reviews from user")
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "Users were returned.", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class)))}),
-    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
+    	    @ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
     @GetMapping("/{id}/reviews")
     public Collection<UserReviewResponseDto> getReviews(@PathVariable Long id);
 }

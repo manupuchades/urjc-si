@@ -24,14 +24,18 @@ public interface ReviewRestController {
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "200", description = "Review created succesfully."),
 			@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Book not found", content = @Content) })
+			@ApiResponse(responseCode = "403", description = "Access denied"),
+			@ApiResponse(responseCode = "404", description = "Book not found", content = @Content),
+			@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@PostMapping("/")
 	public ResponseEntity<UserReviewResponseDto> createReview(@RequestBody ReviewRequestDto review);
 
 	@Operation(summary = "Delete review")
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "200", description = "Review deleted successfully."),
-			@ApiResponse(responseCode = "404", description = "Review not found.") })
+			@ApiResponse(responseCode = "403", description = "Access denied"),
+			@ApiResponse(responseCode = "404", description = "Review not found."),
+			@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<UserReviewResponseDto> deleteReview(
 			@Parameter(description = "the review id") @PathVariable long id);

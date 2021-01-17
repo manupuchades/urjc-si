@@ -1,21 +1,14 @@
 package es.urjc.si.dtos.requests.user;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
 @Data
-public class CreateUserRequestDto {
-
-    @NotBlank(message = "email is mandatory")
-    @Email(message = "Invalid email")
-	private String email;
-    
+public class UserLoginRequestDto {
     @NotBlank(message = "Nick is mandatory")
-	private String nick;
+	private String username;
     
     @NotBlank(message = "Password is mandatory")
 	private String password;
-
 }

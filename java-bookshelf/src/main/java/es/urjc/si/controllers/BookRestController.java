@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.urjc.si.dtos.requests.book.BookRequestDto;
 import es.urjc.si.dtos.responses.book.BookDetailsResponseDto;
+import es.urjc.si.dtos.responses.book.BookResponseDto;
 import es.urjc.si.dtos.responses.book.BookTitleResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,8 +27,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface BookRestController {
 
     @Operation(summary = "Get all books titles.")
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Books were returned.",
-    		content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BookTitleResponseDto.class)))})})
+    @ApiResponses(value = { 
+    		@ApiResponse(responseCode = "200", description = "Books were returned.",
+    		content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BookTitleResponseDto.class)))}),
+    		@ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@GetMapping("/")
 	public Collection<BookTitleResponseDto> getBooks();
     
@@ -35,7 +39,9 @@ public interface BookRestController {
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "Found the book", content = {@Content(mediaType = "application/json", schema = @Schema(implementation=BookDetailsResponseDto.class))}),
     		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
-    		@ApiResponse(responseCode = "404", description = "Book not found", content = @Content) })
+    		@ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "404", description = "Book not found", content = @Content),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@GetMapping("/{id}")
 	public ResponseEntity<BookDetailsResponseDto> getBook(@Parameter(description = "the book id") @PathVariable long id);
     
@@ -43,7 +49,9 @@ public interface BookRestController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Book to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookRequestDto.class)))
     @ApiResponses(value = { 
     		@ApiResponse(responseCode = "200", description = "Book created succesfully."),
-    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)})
+    		@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
+    		@ApiResponse(responseCode = "403", description = "Access denied"),
+    		@ApiResponse(responseCode = "500", description = "Expired or invalid JWT token")})
 	@PostMapping("/")
-	public ResponseEntity<BookDetailsResponseDto> createBook(@Parameter(description = "the book")@Valid @RequestBody BookRequestDto book);
+	public ResponseEntity<BookResponseDto> createBook(@Parameter(description = "the book")@Valid @RequestBody BookRequestDto book);
 }

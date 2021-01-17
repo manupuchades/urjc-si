@@ -1,7 +1,12 @@
 package es.urjc.si.services;
 
+import static java.util.Collections.emptyList;
+
 import java.util.Collection;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import es.urjc.si.exceptions.UserNotFoundException;
@@ -12,7 +17,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService{
 
 	UserRepository userRepository;
 	
@@ -46,5 +51,12 @@ public class UserService {
 	
 	public User findByNick(String nick) {
 		return userRepository.findByNick(nick).orElseThrow(UserNotFoundException::new);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println(">>>>> USER LOADUSER: " + username);
+		User user = findByNick(username);
+		return new org.springframework.security.core.userdetails.User(user.getNick(), user.getPassword(), emptyList());
 	}
 }

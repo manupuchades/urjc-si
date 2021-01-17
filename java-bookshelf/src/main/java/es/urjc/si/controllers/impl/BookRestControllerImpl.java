@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.urjc.si.controllers.BookRestController;
 import es.urjc.si.dtos.requests.book.BookRequestDto;
 import es.urjc.si.dtos.responses.book.BookDetailsResponseDto;
+import es.urjc.si.dtos.responses.book.BookResponseDto;
 import es.urjc.si.dtos.responses.book.BookTitleResponseDto;
 import es.urjc.si.mappers.BookMapper;
 import es.urjc.si.models.Book;
@@ -55,9 +56,9 @@ public class BookRestControllerImpl implements BookRestController{
 	}
 
     @Override
-	public ResponseEntity<BookDetailsResponseDto> createBook(@Parameter(description = "the book")@Valid @RequestBody BookRequestDto book) {
+	public ResponseEntity<BookResponseDto> createBook(@Parameter(description = "the book")@Valid @RequestBody BookRequestDto book) {
 		Book savedBook = bookService.save(bookMapper.mapToBook(book));
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedBook.getId()).toUri();
-		return ResponseEntity.created(location).body(bookMapper.mapToBookDetailsResponseDto(savedBook));
+		return ResponseEntity.created(location).body(bookMapper.mapToBookResponseDto(savedBook));
 	}
 }

@@ -3,6 +3,7 @@ package es.urjc.si.mappers;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import es.urjc.si.dtos.requests.user.CreateUserRequestDto;
@@ -12,6 +13,12 @@ import es.urjc.si.models.User;
 
 @Component
 public class UserMapper {
+	
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	public UserMapper(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
 	public Collection<UserResponseDto> mapToUserResponseDto(Collection<User> users) {
 		Collection<UserResponseDto> responseDto = new ArrayList<>();
@@ -32,6 +39,6 @@ public class UserMapper {
 	}
 	
 	public User mapToUser(CreateUserRequestDto dto) {
-		return User.builder().email(dto.getEmail()).nick(dto.getNick()).build();
+		return User.builder().email(dto.getEmail()).nick(dto.getNick()).password(bCryptPasswordEncoder.encode(dto.getPassword())).build();
 	}
 }

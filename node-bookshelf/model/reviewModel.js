@@ -1,5 +1,7 @@
 // reviewModel.js
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const User = require('./userModel.js');
+
 // Setup schema
 var reviewSchema = mongoose.Schema({
     bookId: {
@@ -9,6 +11,8 @@ var reviewSchema = mongoose.Schema({
     comment: String,
     rating: {
         type: Number,
+        min: [0, 'Rating must be at least 0'],
+        max: [5, 'Rating must be less or equals than 5'],
         required: true
     },
     user: {
@@ -18,6 +22,3 @@ var reviewSchema = mongoose.Schema({
 });
 // Export Review model
 var Review = module.exports = mongoose.model('review', reviewSchema);
-module.exports.get = function (callback, limit) {
-    Review.find(callback).limit(limit);
-}

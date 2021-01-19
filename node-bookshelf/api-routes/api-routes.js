@@ -10,29 +10,41 @@ router.get('/', function (req, res) {
     });
 });
 // Import book controller
-var bookController = require('../controller/bookController');
-// Import book controller
-var reviewController = require('../controller/reviewController');
+const bookController = require('../controller/bookController');
+// Import review controller
+const reviewController = require('../controller/reviewController');
+// Import user controller
+const userController = require('../controller/userController');
+// Import authorization
+const authentication = require('../security/authentication');
+
+
 // Book routes
 router.route('/books')
     .get(bookController.index)
-    .post(bookController.new);
+    .post(authentication.verify,bookController.new);
 
 router.route('/books/:book_id')
-    .get(bookController.view)
-    .patch(bookController.update)
-    .put(bookController.update)
-    .delete(bookController.delete);
+    .get(authentication.verify, bookController.view)
+    .patch(authentication.verify, bookController.update)
+    .put(authentication.verify, bookController.update)
+    .delete(authentication.verify, bookController.delete);
 
 router.route('/reviews')
-    .get(reviewController.index)
-    .post(reviewController.new);
+    .get(authentication.verify, reviewController.index)
+    .post(authentication.verify, reviewController.new);
 
 router.route('/reviews/:review_id')
-    .get(reviewController.view)
-    .patch(reviewController.update)
-    .put(reviewController.update)
-    .delete(reviewController.delete);
+    .get(authentication.verify, reviewController.view)
+    .patch(authentication.verify, reviewController.update)
+    .put(authentication.verify, reviewController.update)
+    .delete(authentication.verify, reviewController.delete);
+
+router.route('/users/register')
+    .post(userController.register);
+
+router.route('/users/login')
+    .post(userController.login);
 
 // Export API routes
 module.exports = router;

@@ -1,5 +1,9 @@
 // Import express
-let express = require('express')
+let express = require('express');
+// Import file system
+let fs = require('fs');
+// Import https
+var https = require('https')
 // Import Body parser
 let bodyParser = require('body-parser');
 // Import Mongoose
@@ -31,7 +35,10 @@ var port = process.env.PORT || 8080;
 // Use Api routes in the App
 app.use(apiRoutes);
 
-// Launch app to listen to specified port
-app.listen(port, function () {
+// Launch app to listen to specified port on https
+https.createServer({
+    key: fs.readFileSync('certificates/server.key'),
+    cert: fs.readFileSync('certificates/server.cert')
+  }, app).listen(port, function () {
      console.log("Running Bookshelf on port " + port);
 });

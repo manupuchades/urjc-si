@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "553fad7d-6b1f-4ecd-9a11-bd3fe8f20ba5",
+		"name": "Secure bookshelf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Create review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": \"1\",\r\n  \"comment\": \"Magnificent\",\r\n  \"rating\": 5,\r\n  \"userNick\": \"user1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}reviews/",
+							"host": [
+								"{{HOST}}reviews"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get Books titles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}books/",
+							"host": [
+								"{{HOST}}books"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjUiLCJpYXQiOjE2MTA5MTk2MTgsImV4cCI6MTYxMDkyMzIxOH0.ZtErSLJn1W8eUdWHRSpQWEBLbR2eEt7OUdcMDIrRbgKOdM_hbjIjCZyFVkz6beSvEYqGDda15SpajWptTgW20A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\": \"Andrew Hunt, Dave Thomas\",\r\n    \"description\": \"A useful approach to software design and construction that allows for efficient, profitable development of high quality products. Elements of the approach include specification development, customer relations, team management, design practices, development tools, and testing procedures. This approach is presented with the help of anecdotes and technical problems.\",\r\n    \"edition\": \"2000-10-20\",\r\n    \"publisher\": \"Addison-Wesley\",\r\n    \"title\": \"The Pragmatic Programmer: From Journeyman to Master\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}books/",
+							"host": [
+								"{{HOST}}books"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}books/3",
+							"host": [
+								"{{HOST}}books"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"user1\", \"password\": \"password\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}users/login",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"admin10@mail.com\",\r\n    \"nick\": \"admin10\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}users/register/",
+							"host": [
+								"{{HOST}}users"
+							],
+							"path": [
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "https://localhost:8080/"
+		}
+	]
+}

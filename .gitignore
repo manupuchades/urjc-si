@@ -23,9 +23,12 @@
 hs_err_pid*
 
 # eclipse
+target
 .settings
 .gitignore
 .mvn/
+.classpath
+.project
 
 # node
 node_modules

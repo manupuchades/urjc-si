@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import es.urjc.code.daw.library.book.Book;
@@ -49,7 +50,7 @@ class BookRestControllerE2ETest {
 	}
 
 	@Test
-	@DisplayName("Recuperar libros con usuario no autenticado")
+	@DisplayName("Get all books as guest")
 	void testGetBooks() throws Exception {
 
 		webTestClient.get().uri("/api/books/").exchange()
@@ -63,7 +64,7 @@ class BookRestControllerE2ETest {
 	}
 
 	@Test
-	@DisplayName("Añadir libro como usuario")
+	@DisplayName("Create new book as user")
 	void testCreateBook() throws Exception {
 
 		Book request = new Book("Title", "The description");
@@ -79,10 +80,19 @@ class BookRestControllerE2ETest {
 	}
 
 	@Test
-	@DisplayName("Borrar libro como administrador")
+	@DisplayName("Delete book as admin")
 	void testDeleteBook() throws Exception {
 		
-		webTestClient.delete().uri("/api/books/1")
+		Book request = new Book("Title", "The description");
+
+		EntityExchangeResult<Book> response = webTestClient.post().uri("/api/books/")
+			.headers(headers -> headers.setBasicAuth("user", "pass"))
+			.body(Mono.just(request), Book.class).exchange()
+				.expectStatus().isCreated().expectBody(Book.class).returnResult();
+		
+		long id = response.getResponseBody().getId();
+		
+		webTestClient.delete().uri("/api/books/{id}", id)
 			.headers(headers -> headers.setBasicAuth("admin", "pass")).exchange()
 				.expectStatus().isOk();
 	}

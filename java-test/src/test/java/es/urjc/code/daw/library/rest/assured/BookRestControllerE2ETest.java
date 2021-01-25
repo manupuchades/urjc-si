@@ -35,7 +35,7 @@ class BookRestControllerE2ETest {
 	}
 
 	@Test
-	@DisplayName("Recuperar libros con usuario no autenticado")
+	@DisplayName("Get all books as guest")
 	void testGetBooks() throws Exception {
 
 		when().request("GET", "/api/books/").then().statusCode(200).assertThat().contentType(ContentType.JSON)
@@ -45,7 +45,7 @@ class BookRestControllerE2ETest {
 	}
 
 	@Test
-	@DisplayName("Añadir libro como usuario")
+	@DisplayName("Create new book as user")
 	void testCreateBook() throws Exception {
 		given().auth().preemptive().basic("user", "pass")
 		.contentType("application/json").body("{\"title\":\"The Title\",\"description\":\"Amazing description\" }")
@@ -65,7 +65,7 @@ class BookRestControllerE2ETest {
 	}
 	
 	@Test
-	@DisplayName("Borrar libro nuevo como administrador")
+	@DisplayName("Delete book as admin")
 	void testDeleteNewBook() throws Exception {
 
 		Response response = given().auth().preemptive().basic("user", "pass").contentType("application/json")

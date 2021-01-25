@@ -46,7 +46,7 @@ class BookRestControllerUnitTest {
 	private BookService service;
 
 	@Test
-	@DisplayName("Recuperar libros con usuario no autenticado")
+	@DisplayName("Get all books as guest")
 	void testGetBooks() throws Exception {
 		List<Book> books = Arrays.asList(new Book("title1", "desc1"), new Book("title2", "desc2"));
 		when(service.findAll()).thenReturn(books);
@@ -62,7 +62,7 @@ class BookRestControllerUnitTest {
 	}
 
 	@Test
-	@DisplayName("Añadir libro como usuario")
+	@DisplayName("Create new book as user")
 	@WithMockUser(username = "user", password = "pass", roles = "USER")
 	void testCreateBook() throws Exception {
 		Book book = new Book("title1", "desc1");
@@ -77,7 +77,7 @@ class BookRestControllerUnitTest {
 	}
 
 	@Test
-	@DisplayName("Borrar libro como administrador")
+	@DisplayName("Delete book as admin")
 	@WithMockUser(username = "admin", password = "pass", roles = "ADMIN")
 	void testDeleteBook() throws Exception {
 

@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +21,8 @@ import io.restassured.response.Response;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DisplayName("Tests unitarios con RESTAssured")
-class BookRestControllerTest {
+@DisplayName("End to End tests with RESTAssured")
+class BookRestControllerE2ETest {
 
 	@LocalServerPort
 	int port;
@@ -34,34 +33,18 @@ class BookRestControllerTest {
 		RestAssured.useRelaxedHTTPSValidation();
 		RestAssured.baseURI = "https://localhost:" + port;
 	}
-	
-	@Test
-	@Order(1)
-	@DisplayName("Borrar libro existente como administrador")
-	void testDeleteExistingBook() throws Exception {
-
-		given().auth().preemptive().basic("admin", "pass").when().get("/api/books/{id}", 1).then()
-		.statusCode(200);
-		
-		given().auth().preemptive().basic("admin", "pass").when().delete("/api/books/1").then().assertThat()
-				.statusCode(200);
-
-		given().auth().preemptive().basic("admin", "pass").when().get("/api/books/{id}", 1).then()
-				.statusCode(404);
-	}
 
 	@Test
-	@Order(2)
 	@DisplayName("Recuperar libros con usuario no autenticado")
 	void testGetBooks() throws Exception {
 
 		when().request("GET", "/api/books/").then().statusCode(200).assertThat().contentType(ContentType.JSON)
-				.body("$", hasSize(5)).body("title", hasItems("SUEÑOS DE ACERO Y NEON", "LA VIDA SECRETA DE LA MENTE",
+				.body("$", hasSize(5))
+				.body("title", hasItems("SUEÑOS DE ACERO Y NEON", "LA VIDA SECRETA DE LA MENTE",
 						"CASI SIN QUERER", "TERMINAMOS Y OTROS POEMAS SIN TERMINAR", "LA LEGIÓN PERDIDA"));
 	}
 
 	@Test
-	@Order(3)
 	@DisplayName("Añadir libro como usuario")
 	void testCreateBook() throws Exception {
 		given().auth().preemptive().basic("user", "pass")
@@ -82,7 +65,6 @@ class BookRestControllerTest {
 	}
 	
 	@Test
-	@Order(4)
 	@DisplayName("Borrar libro nuevo como administrador")
 	void testDeleteNewBook() throws Exception {
 

@@ -33,8 +33,8 @@ import es.urjc.code.daw.library.book.BookService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("Tests unitarios con MockMVC")
-class BookRestControllerTest {
+@DisplayName("Unit tests with MockMVC")
+class BookRestControllerUnitTest {
 
 	@Autowired
 	private MockMvc mvc;

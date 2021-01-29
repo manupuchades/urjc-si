@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<planner>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "es.codeurjc.mastercloudapps.planner.Application",
+            "projectName": "planner",
+            "args": ""
+        }
+    ]
+}

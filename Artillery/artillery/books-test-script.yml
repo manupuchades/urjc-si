@@ -1,0 +1,148 @@
+config:
+    target: "https://127.0.0.1:8443/api"
+    tls:
+        rejectUnauthorized: false
+
+    # artillery-plugin-expect plugin used to add expectations/assertions to HTTP scenarios
+    plugins:
+        expect: {}
+    
+    # Especificaciones: 
+    # * 1 unica fase de 40 segundos con una tasa de 5 usuarios/segundo
+    # * 8 conexiones simultaneas como máximo
+    # * Requisitos: 
+    #       - 95% de peticiones <100 ms.
+    #       - 0% de tasa de error
+    phases:  
+      - name: "Sustained books API test"
+        duration: 40
+        arrivalRate: 5
+        
+    http:
+        pool: 8
+
+    ensure:
+        p95: 100
+        maxErrorRate: 0
+
+    payload:
+        path: "books.csv"
+        fields:
+            - "title"
+            - "description"
+        order: "sequence"
+        
+    variables:
+        user_login:
+            - "user"
+        admin_login:
+            - "admin"
+        password:
+            - "pass"
+
+scenarios:
+    # Escenario 1: Consulta del primer Libro.
+    # * Un usuario sin logear recupera todos los libros y pide el primero para ver más información.
+    - name: "Find all books and get first by id"
+      weight: 7
+      flow:
+        - log: "Find all books"
+        - get:
+            url: "/books/"          
+            capture:
+              json: "$[0].id"
+              as: "book_id"
+            expect:
+            - statusCode: 200
+            - contentType: json
+
+        - log: "Find book by id: {{ book_id }}"
+        - get:
+            url: "/books/{{ book_id }}"
+            capture:
+              json: "$.title"
+              as: "book_title"
+            expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: id
+            - hasProperty: title
+            - hasProperty: description
+        - log: "book title: {{ book_title }}"
+
+    # Escenario 2: Creación de un Libro.
+    # * Un usuario logueado crea un libro y después lo pide para comprobarlo.    
+    - name: "Save a book as user"
+      weight: 2
+      flow:
+        - log: "Login as user"
+        - get:
+            url: "/logIn"
+            auth:
+                user: "{{ user_login }}"                
+                pass: "{{ password }}"
+            expect:
+            - statusCode: 200
+        - log: "Create book"
+        - post:
+            url: "/books/"
+            json:
+                title: "{{ title }}"
+                description: "{{ description }}"
+            capture:
+              json: "$.id"
+              as: "new_book_id"
+            expect:
+            - statusCode: 201
+            - contentType: json
+            - hasProperty: id
+            - hasProperty: title
+            - hasProperty: description
+        - log: "Verify new book exists: {{ new_book_id }}"
+        - get:
+            url: "/books/{{ new_book_id }}"
+            expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: id
+            - hasProperty: title
+            - hasProperty: description
+
+    # Escenario 2: Borrado de un Libro.
+    # * El administrador crea un libro, pero tras comprobarlo, lo borra y comprueba que ya no existe.  
+    - name: "Delete a book as admin"
+      weight: 1
+      flow:
+        - log: "Login as admin"
+        - get:
+            url: "/logIn"
+            auth:
+                user: "{{ admin_login }}"
+                pass: "{{ password }}"
+            expect:
+            - statusCode: 200
+        - log: "Create book"
+        - post:
+            url: "/books/"
+            json:
+                title: "{{ title }}"
+                description: "{{ description }}"
+            capture:
+              json: "$.id"
+              as: "delete_book_id"
+            expect:
+            - statusCode: 201
+            - contentType: json
+            - hasProperty: id
+            - hasProperty: title
+            - hasProperty: description
+        - log: "Delete book : {{ delete_book_id }}"
+        - delete:
+            url: "/books/{{ delete_book_id }}"
+            expect:
+                - statusCode: 204
+        - log: "Verify book is deleted: {{ delete_book_id }}"
+        - get:
+            url: "/books/{{ delete_book_id }}"
+            expect:
+            - statusCode: 404

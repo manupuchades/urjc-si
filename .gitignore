@@ -29,6 +29,7 @@ target
 .mvn/
 .classpath
 .project
+mvn*
 
 # node
 node_modules

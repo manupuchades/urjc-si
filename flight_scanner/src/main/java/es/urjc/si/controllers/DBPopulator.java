@@ -133,11 +133,20 @@ public class DBPopulator implements CommandLineRunner {
 		Airport a6 = airports
 				.save(Airport.builder().iata("ECV").name("Madrid-Cuatro Vientos").city("Madrid").country("España").build());
 
+		System.out.println(">>>> Airports:");
+		for (Airport a : airports.findAll()){
+			System.out.println(a);
+		}
+
 		Plane p1 = planes.save(Plane.builder().reference("REF001").builder("Airbus").model("A320").flightHours(100000).build());
 		Plane p2 = planes.save(Plane.builder().reference("REF002").builder("Boeing").model("737").flightHours(1000).build());
 		Plane p3 = planes.save(Plane.builder().reference("REF003").builder("Airbus").model("A350").flightHours(40000).build());
 		Plane p4 = planes.save(Plane.builder().reference("REF004").builder("Airbus").model("A321").flightHours(2000).build());
 
+		System.out.println(">>>> Planes:");
+		for (Plane p : planes.findAll()){
+			System.out.println(p);
+		}
 
 		Mechanic m1 = mechanics.save(
 				Mechanic.builder().employeeId("MEC001").mechanicName("MecName01").surname("MecSurname01").company("Iberia").education("Master").seniority(2000).build());
@@ -145,6 +154,11 @@ public class DBPopulator implements CommandLineRunner {
 				Mechanic.builder().employeeId("MEC002").mechanicName("MecName02").surname("MecSurname02").company("Iberia").education("Master").seniority(2000).build());
 		Mechanic m3 = mechanics.save(
 				Mechanic.builder().employeeId("MEC003").mechanicName("MecName03").surname("MecSurname03").company("Iberia").education("Master").seniority(2000).build());
+
+		System.out.println(">>>> Planes:");
+		for (Mechanic m : mechanics.findAll()){
+			System.out.println(m);
+		}
 
 		CrewMember c1 = CrewMember.builder().employeeId("001").memberName("pilot01").surname("surname01").job("Pilot")
 				.company("Company").build();
@@ -189,6 +203,11 @@ public class DBPopulator implements CommandLineRunner {
 		Review r3 = reviews.save(Review.builder().plane(p2).startDate(LocalDate.now().minusMonths(1).minusWeeks(1))
 				.endDate(LocalDate.now().minusMonths(1).minusDays(4)).reviewDuration(12.5).mechanic(m1).reviewType("MONTHLY")
 				.description("Monthly review").build());
+
+		System.out.println(">>>> Reviews:");
+		for (Review r : reviews.findAll()){
+			System.out.println(r);
+		}
 	}
 
 }

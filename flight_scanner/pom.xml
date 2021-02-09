@@ -9,16 +9,16 @@
 		<version>2.4.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	
+
 	<groupId>es.urjc.si</groupId>
 	<artifactId>flight_scanner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>flight_scanner</name>
 	<description>Practica de Persistencia Relacional</description>
-	
+
 	<properties>
 		<java.version>11</java.version>
-	
+
 	</properties>
 	<dependencies>
 		<dependency>

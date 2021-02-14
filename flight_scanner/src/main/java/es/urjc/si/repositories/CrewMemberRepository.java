@@ -15,7 +15,7 @@ import es.urjc.si.models.CrewMember;
 
 public interface CrewMemberRepository extends JpaRepository<CrewMember, Long> {
 
-	@Query(value = "select new es.urjc.si.dtos.MemberDeparturesDto(cm.memberName, cm.surname, a.city, f.departureDateTime) "
+	@Query(value = "select new es.urjc.si.dtos.MemberDeparturesDto(cm.firstName, cm.lastName, a.city, f.departureDateTime) "
 			+ "from CrewMember cm "
 				+ "INNER JOIN FlightCrew fc on cm = fc.crewMember "
 				+ "INNER JOIN Flight f on fc.flight = f "
@@ -23,11 +23,11 @@ public interface CrewMemberRepository extends JpaRepository<CrewMember, Long> {
 				+ "WHERE cm.employeeId = :employeeId ")
     List<MemberDeparturesDto> getMemberDepartures(@Param("employeeId") String employeeId);
 	
-	@Query(value = "select new es.urjc.si.dtos.MemberFlightsDto(cm.memberName, cm.surname, count(f), sum(f.flightDuration)) "
+	@Query(value = "select new es.urjc.si.dtos.MemberFlightsDto(cm.firstName, cm.lastName, count(f), sum(f.flightDuration)) "
 			+ "from CrewMember cm "
 				+ "INNER JOIN FlightCrew fc on cm = fc.crewMember "
 				+ "INNER JOIN Flight f on fc.flight = f "
-				+ "GROUP BY cm.memberName, cm.surname")
+				+ "GROUP BY cm.firstName, cm.lastName")
     List<MemberFlightsDto> findMembersFlightExperience();
 	
 }

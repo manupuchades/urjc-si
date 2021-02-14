@@ -10,7 +10,7 @@ import es.urjc.si.models.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-	@Query(value = "select new es.urjc.si.dtos.PlaneMechanicsDto(p.reference, m.mechanicName, m.surname) "
+	@Query(value = "select new es.urjc.si.dtos.PlaneMechanicsDto(p.reference, m.firstName, m.lastName) "
 			+ "from Review r "
 				+ "INNER JOIN Mechanic m on r.mechanic = m "
 				+ "INNER JOIN Plane p on r.plane = p "

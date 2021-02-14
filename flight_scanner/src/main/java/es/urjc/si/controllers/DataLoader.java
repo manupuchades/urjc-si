@@ -18,18 +18,20 @@ import es.urjc.si.models.Flight;
 import es.urjc.si.models.FlightCrew;
 import es.urjc.si.models.Mechanic;
 import es.urjc.si.models.Plane;
+import es.urjc.si.models.Provincia;
 import es.urjc.si.models.Review;
 import es.urjc.si.repositories.AirportRepository;
 import es.urjc.si.repositories.CrewMemberRepository;
 import es.urjc.si.repositories.FlightRepository;
 import es.urjc.si.repositories.MechanicRepository;
 import es.urjc.si.repositories.PlaneRepository;
+import es.urjc.si.repositories.ProvinciaRepository;
 import es.urjc.si.repositories.ReviewRepository;
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
-public class DBPopulator implements CommandLineRunner {
+public class DataLoader implements CommandLineRunner {
 
 	AirportRepository airports;
 
@@ -42,11 +44,13 @@ public class DBPopulator implements CommandLineRunner {
 	FlightRepository flights;
 
 	ReviewRepository reviews;
+	
+	ProvinciaRepository repository;
 
 	@Override
 	public void run(String... args) {
 
-		populate();
+//		populate();
 
 		firstRequest();
 
@@ -55,6 +59,13 @@ public class DBPopulator implements CommandLineRunner {
 		thirdRequest();
 
 		fourthRequest();
+		
+		
+        System.out.println(">>>> PROVINCIAS :");
+
+        for (Provincia p : repository.findAll()) {
+            System.out.println(p);
+        }
 
 	}
 
@@ -149,24 +160,24 @@ public class DBPopulator implements CommandLineRunner {
 		}
 
 		Mechanic m1 = mechanics.save(
-				Mechanic.builder().employeeId("MEC001").mechanicName("MecName01").surname("MecSurname01").company("Iberia").education("Master").seniority(2000).build());
+				Mechanic.builder().employeeId("MEC001").firstName("MecName01").lastName("MecSurname01").company("Iberia").education("Master").seniority(2000).build());
 		Mechanic m2 = mechanics.save(
-				Mechanic.builder().employeeId("MEC002").mechanicName("MecName02").surname("MecSurname02").company("Iberia").education("Master").seniority(2000).build());
+				Mechanic.builder().employeeId("MEC002").firstName("MecName02").lastName("MecSurname02").company("Iberia").education("Master").seniority(2000).build());
 		Mechanic m3 = mechanics.save(
-				Mechanic.builder().employeeId("MEC003").mechanicName("MecName03").surname("MecSurname03").company("Iberia").education("Master").seniority(2000).build());
+				Mechanic.builder().employeeId("MEC003").firstName("MecName03").lastName("MecSurname03").company("Iberia").education("Master").seniority(2000).build());
 
 		System.out.println(">>>> Planes:");
 		for (Mechanic m : mechanics.findAll()){
 			System.out.println(m);
 		}
 
-		CrewMember c1 = CrewMember.builder().employeeId("001").memberName("pilot01").surname("surname01").job("Pilot")
+		CrewMember c1 = CrewMember.builder().employeeId("001").firstName("pilot01").lastName("lastName01").job("Pilot")
 				.company("Company").build();
-		CrewMember c2 = CrewMember.builder().employeeId("002").memberName("pilot02").surname("surname02").job("Pilot")
+		CrewMember c2 = CrewMember.builder().employeeId("002").firstName("pilot02").lastName("lastName02").job("Pilot")
 				.company("Company").build();
-		CrewMember c3 = CrewMember.builder().employeeId("102").memberName("co-pilot02").surname("co-surname02")
+		CrewMember c3 = CrewMember.builder().employeeId("102").firstName("co-pilot02").lastName("co-lastName02")
 				.job("Co-Pilot").company("Company").build();
-		CrewMember c4 = CrewMember.builder().employeeId("003").memberName("pilot03").surname("surname03").job("Pilot")
+		CrewMember c4 = CrewMember.builder().employeeId("003").firstName("pilot03").lastName("lastName03").job("Pilot")
 				.company("Company").build();
 
 		Flight f1 = Flight.builder().flightId("MON00").company("Company").plane(p1).departure(a1).arrival(a2)

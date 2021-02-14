@@ -13,8 +13,8 @@ public class PlaneMechanicsDto {
 	
 	private String planeReference;
 
-	private String mechanicName;
+	private String firstName;
 
-	private String mechanicSurname;
+	private String lastName;
 
 }

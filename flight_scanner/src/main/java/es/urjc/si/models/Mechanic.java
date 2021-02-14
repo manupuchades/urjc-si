@@ -14,25 +14,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Mechanic {
+public class Mechanic extends Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String employeeId;
-
-	private String mechanicName;
-
-	private String surname;
-	
-	private String company;
 	
 	private Integer seniority;
 	

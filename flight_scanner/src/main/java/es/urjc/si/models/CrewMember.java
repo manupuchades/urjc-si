@@ -14,29 +14,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
-@Builder
-@ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CrewMember {
+public class CrewMember extends Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String employeeId;
-
-	private String memberName;
-
-	private String surname;
 	
 	private String job;
-
-	private String company;
 	
     @OneToMany(mappedBy = "crewMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@Builder.Default

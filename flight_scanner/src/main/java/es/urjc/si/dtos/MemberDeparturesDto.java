@@ -13,9 +13,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class MemberDeparturesDto {
 	
-	private String name;
+	private String firstName;
 
-	private String surname;
+	private String lastName;
 	
 	private String city;
 	

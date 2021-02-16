@@ -3,6 +3,7 @@ package es.urjc.si.models;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,4 +45,6 @@ public class Plane {
 	@Builder.Default
 	private Collection<Flight> flights = Collections.emptyList();
 
+    @Column(columnDefinition = "json")
+	private String reviewDetails;
 }

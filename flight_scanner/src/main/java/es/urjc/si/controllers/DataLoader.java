@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import es.urjc.si.dtos.FlightArrivalsDto;
 import es.urjc.si.dtos.MemberDeparturesDto;
 import es.urjc.si.dtos.MemberFlightsDto;
+import es.urjc.si.dtos.MemberFlightsInterface;
 import es.urjc.si.dtos.PlaneMechanicsDto;
+import es.urjc.si.dtos.PlaneMechanicsInterface;
+import es.urjc.si.dtos.ProvinciasPorComunidadDto;
 import es.urjc.si.models.Airport;
 import es.urjc.si.models.CrewMember;
 import es.urjc.si.models.Flight;
@@ -44,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
 	FlightRepository flights;
 
 	ReviewRepository reviews;
-	
+
 	ProvinciaRepository repository;
 
 	@Override
@@ -52,21 +56,44 @@ public class DataLoader implements CommandLineRunner {
 
 //		populate();
 
-		firstRequest();
+//		firstRequest();
+//
+//		secondRequest();
+//
+//		thirdRequest();
+//
+//		fourthRequest();
 
-		secondRequest();
+		System.out.println(">>>> Para cada tripulante, mostrar su nombre y apellidos y junto con su número total de vuelos y la suma de horas de estos.");
 
-		thirdRequest();
+		List<MemberFlightsInterface> mfi = flights.findMembersFlightExperience();
 
-		fourthRequest();
-		
-		
-        System.out.println(">>>> PROVINCIAS :");
+		for (MemberFlightsDto dto : mfi.stream().map(
+				i -> new MemberFlightsDto(i.getFirstName(), i.getLastName(), i.getNumberOfFlights(), i.getFlightTime()))
+				.collect(Collectors.toList())) {
+			System.out.println(dto);
+		}
 
-        for (Provincia p : repository.findAll()) {
-            System.out.println(p);
-        }
+		System.out.println(">>>> Para cada avión, mostrar el nombre y apellidos de los responsables de sus revisiones.");
 
+		List<PlaneMechanicsInterface> pmi = planes.findAllMechanicsForEveryPlane();
+
+		for (PlaneMechanicsDto dto : pmi.stream().map(
+				i -> new PlaneMechanicsDto(i.getPlaneReference(), i.getFirstName(), i.getLastName())).collect(Collectors.toList())) {
+			System.out.println(dto);
+		}
+
+		System.out.println(">>>> PROVINCIAS :");
+
+		for (Provincia p : repository.findAll()) {
+			System.out.println(p);
+		}
+
+		System.out.println(">>>> PROVINCIAS COUNT:");
+
+		for (ProvinciasPorComunidadDto ppc : repository.countProvinciasByComunidad()) {
+			System.out.println(ppc);
+		}
 	}
 
 	/**
@@ -131,43 +158,47 @@ public class DataLoader implements CommandLineRunner {
 	}
 
 	private void populate() {
-		Airport a1 = airports
-				.save(Airport.builder().iata("MAD").name("Adolfo Suarez Madrid-Barajas").city("Madrid").country("España").build());
-		Airport a2 = airports
-				.save(Airport.builder().iata("BCN").name("Josep Tarradellas Barcelona-El Prat").city("Barcelona").country("España").build());
-		Airport a3 = airports
-				.save(Airport.builder().iata("PMI").name("Palma de Mallorca").city("Palma de Mallorca").country("España").build());
-		Airport a4 = airports
-				.save(Airport.builder().iata("AGP").name("Malaga-Costa del Sol").city("Malaga").country("España").build());
+		Airport a1 = airports.save(Airport.builder().iata("MAD").name("Adolfo Suarez Madrid-Barajas").city("Madrid")
+				.country("España").build());
+		Airport a2 = airports.save(Airport.builder().iata("BCN").name("Josep Tarradellas Barcelona-El Prat")
+				.city("Barcelona").country("España").build());
+		Airport a3 = airports.save(Airport.builder().iata("PMI").name("Palma de Mallorca").city("Palma de Mallorca")
+				.country("España").build());
+		Airport a4 = airports.save(
+				Airport.builder().iata("AGP").name("Malaga-Costa del Sol").city("Malaga").country("España").build());
 		Airport a5 = airports
 				.save(Airport.builder().iata("ALC").name("Alicante-Elche").city("Alicante").country("España").build());
-		Airport a6 = airports
-				.save(Airport.builder().iata("ECV").name("Madrid-Cuatro Vientos").city("Madrid").country("España").build());
+		Airport a6 = airports.save(
+				Airport.builder().iata("ECV").name("Madrid-Cuatro Vientos").city("Madrid").country("España").build());
 
 		System.out.println(">>>> Airports:");
-		for (Airport a : airports.findAll()){
+		for (Airport a : airports.findAll()) {
 			System.out.println(a);
 		}
 
-		Plane p1 = planes.save(Plane.builder().reference("REF001").builder("Airbus").model("A320").flightHours(100000).build());
-		Plane p2 = planes.save(Plane.builder().reference("REF002").builder("Boeing").model("737").flightHours(1000).build());
-		Plane p3 = planes.save(Plane.builder().reference("REF003").builder("Airbus").model("A350").flightHours(40000).build());
-		Plane p4 = planes.save(Plane.builder().reference("REF004").builder("Airbus").model("A321").flightHours(2000).build());
+		Plane p1 = planes
+				.save(Plane.builder().reference("REF001").builder("Airbus").model("A320").flightHours(100000).build());
+		Plane p2 = planes
+				.save(Plane.builder().reference("REF002").builder("Boeing").model("737").flightHours(1000).build());
+		Plane p3 = planes
+				.save(Plane.builder().reference("REF003").builder("Airbus").model("A350").flightHours(40000).build());
+		Plane p4 = planes
+				.save(Plane.builder().reference("REF004").builder("Airbus").model("A321").flightHours(2000).build());
 
 		System.out.println(">>>> Planes:");
-		for (Plane p : planes.findAll()){
+		for (Plane p : planes.findAll()) {
 			System.out.println(p);
 		}
 
-		Mechanic m1 = mechanics.save(
-				Mechanic.builder().employeeId("MEC001").firstName("MecName01").lastName("MecSurname01").company("Iberia").education("Master").seniority(2000).build());
-		Mechanic m2 = mechanics.save(
-				Mechanic.builder().employeeId("MEC002").firstName("MecName02").lastName("MecSurname02").company("Iberia").education("Master").seniority(2000).build());
-		Mechanic m3 = mechanics.save(
-				Mechanic.builder().employeeId("MEC003").firstName("MecName03").lastName("MecSurname03").company("Iberia").education("Master").seniority(2000).build());
+		Mechanic m1 = mechanics.save(Mechanic.builder().employeeId("MEC001").firstName("MecName01")
+				.lastName("MecSurname01").company("Iberia").education("Master").seniority(2000).build());
+		Mechanic m2 = mechanics.save(Mechanic.builder().employeeId("MEC002").firstName("MecName02")
+				.lastName("MecSurname02").company("Iberia").education("Master").seniority(2000).build());
+		Mechanic m3 = mechanics.save(Mechanic.builder().employeeId("MEC003").firstName("MecName03")
+				.lastName("MecSurname03").company("Iberia").education("Master").seniority(2000).build());
 
 		System.out.println(">>>> Planes:");
-		for (Mechanic m : mechanics.findAll()){
+		for (Mechanic m : mechanics.findAll()) {
 			System.out.println(m);
 		}
 
@@ -198,25 +229,23 @@ public class DataLoader implements CommandLineRunner {
 		f2.setCrewMembers(Arrays.asList(fc2a, fc2b));
 		f3.setCrewMembers(Arrays.asList(fc3));
 
-		
 		flights.save(f1);
 		flights.save(f2);
 		flights.save(f3);
 		flights.save(f4);
 
-
-		Review r1 = reviews
-				.save(Review.builder().plane(p1).startDate(LocalDate.now().minusWeeks(1)).endDate(LocalDate.now().minusDays(4))
-						.reviewDuration(12.5).mechanic(m1).reviewType("MONTHLY").description("Monthly review").build());
+		Review r1 = reviews.save(Review.builder().plane(p1).startDate(LocalDate.now().minusWeeks(1))
+				.endDate(LocalDate.now().minusDays(4)).reviewDuration(12.5).mechanic(m1).reviewType("MONTHLY")
+				.description("Monthly review").build());
 		Review r2 = reviews.save(Review.builder().plane(p1).startDate(LocalDate.now().minusMonths(1).minusWeeks(1))
-				.endDate(LocalDate.now().minusMonths(1).minusDays(4)).reviewDuration(12.5).mechanic(m2).reviewType("MONTHLY")
-				.description("Monthly review").build());
+				.endDate(LocalDate.now().minusMonths(1).minusDays(4)).reviewDuration(12.5).mechanic(m2)
+				.reviewType("MONTHLY").description("Monthly review").build());
 		Review r3 = reviews.save(Review.builder().plane(p2).startDate(LocalDate.now().minusMonths(1).minusWeeks(1))
-				.endDate(LocalDate.now().minusMonths(1).minusDays(4)).reviewDuration(12.5).mechanic(m1).reviewType("MONTHLY")
-				.description("Monthly review").build());
+				.endDate(LocalDate.now().minusMonths(1).minusDays(4)).reviewDuration(12.5).mechanic(m1)
+				.reviewType("MONTHLY").description("Monthly review").build());
 
 		System.out.println(">>>> Reviews:");
-		for (Review r : reviews.findAll()){
+		for (Review r : reviews.findAll()) {
 			System.out.println(r);
 		}
 	}

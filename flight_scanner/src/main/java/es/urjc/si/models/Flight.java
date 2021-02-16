@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
@@ -49,5 +49,8 @@ public class Flight {
 	@OneToMany(mappedBy = "flight", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@Builder.Default
 	private Collection<FlightCrew> crewMembers = Collections.emptyList();
+	
+    @Column(columnDefinition = "json")
+	private String members;
 
 }

@@ -29,6 +29,5 @@
 * Práctica 2:
   - [TO DO](https://github.com/manupuchades/urjc-si/tree/architecture/release/v2.0)
 
-[Code URJC Máster Cloud Apps](https://www.codeurjc.es/mastercloudapps/) - Desarrollo y despliegue de aplicaciones en la nube
-
-Curso 2020/2021
+> [Code URJC Máster Cloud Apps](https://www.codeurjc.es/mastercloudapps/) - Desarrollo y despliegue de aplicaciones en la nube  
+> Curso 2020/2021

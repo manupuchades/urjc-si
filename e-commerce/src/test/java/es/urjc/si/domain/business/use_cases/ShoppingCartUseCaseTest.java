@@ -1,55 +1,126 @@
 package es.urjc.si.domain.business.use_cases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import es.urjc.si.domain.dtos.ShoppingCartDto;
+import es.urjc.si.domain.business.use_cases.stubs.ProductRepositoryStub;
+import es.urjc.si.domain.business.use_cases.stubs.ShoppingCartRepositoryStub;
+import es.urjc.si.domain.business.use_cases.stubs.ShoppingCartValidatorStub;
+import es.urjc.si.domain.dtos.FullProductDto;
+import es.urjc.si.domain.dtos.FullShoppingCartDto;
+import es.urjc.si.domain.dtos.OrderInputDto;
+import es.urjc.si.domain.dtos.ProductInputDto;
 import es.urjc.si.domain.dtos.ShoppingCartInputDto;
 import es.urjc.si.domain.exceptions.ShoppingCartNotFoundException;
+import es.urjc.si.domain.ports.IProductRepository;
 import es.urjc.si.domain.ports.IShoppingCartRepository;
+import es.urjc.si.domain.ports.IShoppingCartValidator;
 import es.urjc.si.domain.services.IShoppingCartService;
 
 @DisplayName("Shopping Cart Use Case Domain Unit Test")
 class ShoppingCartUseCaseTest {
-	
-	IShoppingCartRepository shoppingCartRepository = new ShoppingCartRepositoryStub();
+
+	IProductRepository productRepository = new ProductRepositoryStub();
+	IShoppingCartRepository shoppingCartRepository = new ShoppingCartRepositoryStub(productRepository);
+	IShoppingCartValidator shoppingCartValidator = new ShoppingCartValidatorStub();
 
 	IShoppingCartService shoppingCartService;
 
-	ShoppingCartInputDto dummyProduct;
+	ShoppingCartInputDto dummyShoppingCart;
+	ProductInputDto dummyProduct;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		shoppingCartService = new ShoppingCartUseCase(shoppingCartRepository);
+		shoppingCartService = new ShoppingCartUseCase(shoppingCartRepository, productRepository, shoppingCartValidator);
 
-		dummyProduct = ShoppingCartInputDto.builder().customer("Dummy Customer").amount(0).finalized(false).build();
+		dummyShoppingCart = ShoppingCartInputDto.builder().customer("Dummy Customer").build();
+		dummyProduct = ProductInputDto.builder().name("Doritos Tex Mex")
+				.description("Nachos de maiz con sabor a queso de Matutano").price(Double.valueOf("2.55")).build();
+
+		productRepository.save(dummyProduct);
 	}
 
 	@Test
 	@DisplayName("Create new shopping cart")
 	void testSave() {
-		ShoppingCartDto savedShoppingCart = shoppingCartService.save(dummyProduct);
+		FullShoppingCartDto savedShoppingCart = shoppingCartService.save(dummyShoppingCart);
 
-		assertEquals(dummyProduct.getCustomer(), savedShoppingCart.getCustomer());
-		assertEquals(dummyProduct.getAmount(), savedShoppingCart.getAmount(), 0.01);
-		assertEquals(dummyProduct.isFinalized(), savedShoppingCart.isFinalized());
+		assertEquals(dummyShoppingCart.getCustomer(), savedShoppingCart.getCustomer());
+		assertFalse(savedShoppingCart.isFinalized());
 
-		assertEquals(savedShoppingCart, shoppingCartService.findById(savedShoppingCart.getId()));	}
+		assertEquals(savedShoppingCart, shoppingCartService.findById(savedShoppingCart.getId()));
+	}
 
 	@Test
 	@DisplayName("Delete existing shopping cart")
 	void testDelete() {
-		ShoppingCartDto savedShoppingCart = shoppingCartService.save(dummyProduct);
-		
-		ShoppingCartDto deletedShoppingCart = shoppingCartService.delete(savedShoppingCart.getId());
+		FullShoppingCartDto savedShoppingCart = shoppingCartService.save(dummyShoppingCart);
+
+		FullShoppingCartDto deletedShoppingCart = shoppingCartService.delete(savedShoppingCart.getId());
 
 		assertThrows(ShoppingCartNotFoundException.class, () -> {
 			shoppingCartService.findById(deletedShoppingCart.getId());
 		});
+	}
+
+	@Test
+	@DisplayName("Add product to existing shopping cart")
+	void testAddProductToShoppingCart() {
+		FullShoppingCartDto savedShoppingCart = shoppingCartRepository.save(dummyShoppingCart);
+		FullProductDto savedProduct = productRepository.save(ProductInputDto.builder().name("Aceitunas la española")
+				.description("Una aceituna como ninguna").price(Double.valueOf("0.94")).build());
+
+		int quantity = 2;
+
+		OrderInputDto order = OrderInputDto.builder().shoppingCartId(savedShoppingCart.getId())
+				.productId(savedProduct.getId()).quantity(quantity).build();
+
+		FullShoppingCartDto updatedShoppingCart = shoppingCartService.addOrder(order);
+
+		assertEquals(dummyShoppingCart.getCustomer(), updatedShoppingCart.getCustomer());
+		assertFalse(updatedShoppingCart.isFinalized());
+		assertEquals(1, updatedShoppingCart.getOrders().size());
+
+		assertEquals(savedProduct.getName(), updatedShoppingCart.getOrders().get(0).getProduct().getName());
+		assertEquals(savedProduct.getDescription(),
+				updatedShoppingCart.getOrders().get(0).getProduct().getDescription());
+		assertEquals(quantity, updatedShoppingCart.getOrders().get(0).getQuantity());
+
+	}
+
+	@Test
+	@DisplayName("Delete order from cart")
+	void testDeleteProductFromShoppingCart() {
+		FullShoppingCartDto savedShoppingCart = shoppingCartRepository.save(dummyShoppingCart);
+		FullProductDto savedProduct = productRepository.save(ProductInputDto.builder().name("Doritos Tex Mex")
+				.description("Nachos de maiz con sabor a queso de Matutano").price(Double.valueOf("2.55")).build());
+
+		int quantity = 4;
+
+		OrderInputDto order = OrderInputDto.builder().shoppingCartId(savedShoppingCart.getId())
+				.productId(savedProduct.getId()).quantity(quantity).build();
+
+		FullShoppingCartDto updatedShoppingCart = shoppingCartService.addOrder(order);
+
+		assertEquals(dummyShoppingCart.getCustomer(), updatedShoppingCart.getCustomer());
+		assertFalse(updatedShoppingCart.isFinalized());
+		assertEquals(1, updatedShoppingCart.getOrders().size());
+
+		assertEquals(savedProduct.getName(), updatedShoppingCart.getOrders().get(0).getProduct().getName());
+		assertEquals(savedProduct.getDescription(),updatedShoppingCart.getOrders().get(0).getProduct().getDescription());
+		assertEquals(quantity, updatedShoppingCart.getOrders().get(0).getQuantity());
+		
+		FullShoppingCartDto deletedProductShoppingCart = shoppingCartService.deleteOrder(order);
+		
+		assertEquals(dummyShoppingCart.getCustomer(), deletedProductShoppingCart.getCustomer());
+		assertFalse(deletedProductShoppingCart.isFinalized());
+		assertEquals(0, deletedProductShoppingCart.getOrders().size());
+
 	}
 
 }

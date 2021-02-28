@@ -1,8 +1,7 @@
 package es.urjc.si.domain.dtos;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
-import es.urjc.si.infra.db.h2.entities.ProductOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,16 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCartDto {
+public class FullShoppingCartDto {
 	
-	private Long id;
+	private long id;
 	
 	private String customer;
-	
-	private double amount;
-	
+		
 	private boolean finalized;
 	
-	private Collection<ProductOrder> orders;
+	@Builder.Default
+	private ArrayList<OrderDto> orders = new ArrayList<>();
 
 }

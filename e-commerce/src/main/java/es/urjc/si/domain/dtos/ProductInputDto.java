@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductInputDto {
 		
-	String name;
+	private String name;
 	
-	String description;
+	private String description;
 
-	Double price;
+	private double price;
 }

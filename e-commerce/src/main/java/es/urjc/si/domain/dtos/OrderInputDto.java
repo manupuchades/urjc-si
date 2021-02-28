@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCartInputDto {
-		
-	private String customer;
-		
+public class OrderInputDto {
+	
+	private long shoppingCartId;
+	
+	private long productId;
+
+	private int quantity;
+
 }

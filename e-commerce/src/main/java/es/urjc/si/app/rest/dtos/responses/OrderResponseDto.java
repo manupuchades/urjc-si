@@ -1,4 +1,4 @@
-package es.urjc.si.domain.dtos;
+package es.urjc.si.app.rest.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCartInputDto {
-		
-	private String customer;
-		
+public class OrderResponseDto {
+	
+	private long id;
+
+	private ProductResponseDto product;
+	
+	private int quantity;
+
 }

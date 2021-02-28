@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import es.urjc.si.domain.dtos.ProductDto;
+import es.urjc.si.domain.dtos.FullProductDto;
 import es.urjc.si.domain.dtos.ProductInputDto;
 import es.urjc.si.domain.exceptions.ProductNotFoundException;
 import es.urjc.si.domain.ports.IProductRepository;
@@ -20,7 +20,7 @@ public class ProductAdapter implements IProductRepository {
 	private ProductRepository productRepository;
 
 	@Override
-	public Collection<ProductDto> findAll() {
+	public Collection<FullProductDto> findAll() {
 				
 		return productRepository.findAll()
 				.stream()
@@ -29,18 +29,18 @@ public class ProductAdapter implements IProductRepository {
 	}
 
 	@Override
-	public ProductDto findById(long id) {
+	public FullProductDto findById(long id) {
 		return productRepository.findById(id).map(ProductMapper::map).orElseThrow(ProductNotFoundException::new);
 	}
 
 	@Override
-	public ProductDto save(ProductInputDto product) {
+	public FullProductDto save(ProductInputDto product) {
 		return ProductMapper.map(productRepository.save(ProductMapper.map(product)));
 	}
 
 	@Override
-	public ProductDto delete(long id) {
-		ProductDto p = productRepository.findById(id).map(ProductMapper::map).orElseThrow(ProductNotFoundException::new);
+	public FullProductDto delete(long id) {
+		FullProductDto p = findById(id);
 		productRepository.deleteById(id);
 		return p;
 	}

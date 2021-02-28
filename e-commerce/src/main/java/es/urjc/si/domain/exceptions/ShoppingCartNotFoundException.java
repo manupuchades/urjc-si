@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ShoppingCartNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = -5203490983284495796L;
+
 }

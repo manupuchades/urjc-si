@@ -2,17 +2,17 @@ package es.urjc.si.domain.services;
 
 import java.util.Collection;
 
-import es.urjc.si.domain.dtos.ProductDto;
+import es.urjc.si.domain.dtos.FullProductDto;
 import es.urjc.si.domain.dtos.ProductInputDto;
 
 public interface IProductService {
 
-	Collection<ProductDto> findAll();
+	Collection<FullProductDto> findAll();
 	
-	ProductDto findById(long id);
+	FullProductDto findById(long id);
 	
-	ProductDto save(ProductInputDto productDto);
+	FullProductDto save(ProductInputDto productDto);
 	
-	ProductDto delete(long id);
+	FullProductDto delete(long id);
 
 }

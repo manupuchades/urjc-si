@@ -5,18 +5,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
+@Table(name = "PRODUCT_ORDER")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductOrder {
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +28,10 @@ public class ProductOrder {
 	@ManyToOne
 	private Product product;
 
-	private Long order_quantity;
-
-	private double order_amount;
+	private int order_quantity;
 
 	@ManyToOne
+	@ToString.Exclude
 	private ShoppingCart shoppingCart;
 
 }

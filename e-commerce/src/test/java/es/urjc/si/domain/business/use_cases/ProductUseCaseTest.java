@@ -7,12 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import es.urjc.si.domain.dtos.ProductDto;
+import es.urjc.si.domain.business.use_cases.stubs.ProductRepositoryStub;
+import es.urjc.si.domain.dtos.FullProductDto;
 import es.urjc.si.domain.dtos.ProductInputDto;
 import es.urjc.si.domain.exceptions.ProductNotFoundException;
 import es.urjc.si.domain.ports.IProductRepository;
 import es.urjc.si.domain.services.IProductService;
-import es.urjc.si.infra.db.DBPopulator;
 
 @DisplayName("Product Use Case Domain Unit Test")
 class ProductUseCaseTest {
@@ -26,7 +26,6 @@ class ProductUseCaseTest {
 	@BeforeEach
 	void setUp() {
 		productService = new ProductUseCase(productRepository);
-		new DBPopulator(productRepository).populate();
 
 		dummyProduct = ProductInputDto.builder().name("Pipas Facundo").description("Pipas de Girasol blanquilla")
 				.price(Double.valueOf("1.91")).build();
@@ -35,24 +34,25 @@ class ProductUseCaseTest {
 	@Test
 	@DisplayName("Create new product")
 	void saveProductTest() {
-		ProductDto savedProduct = productService.save(dummyProduct);
+		FullProductDto savedProduct = productService.save(dummyProduct);
 
 		assertEquals(dummyProduct.getName(), savedProduct.getName());
 		assertEquals(dummyProduct.getDescription(), savedProduct.getDescription());
-		assertEquals(dummyProduct.getPrice(), savedProduct.getPrice());
-
+		assertEquals(dummyProduct.getPrice(), savedProduct.getPrice(), 0.01);
 		assertEquals(savedProduct, productService.findById(savedProduct.getId()));
 	}
 
 	@Test
 	@DisplayName("Delete existing product")
 	void deleteProductTest() {
-		ProductDto savedProduct = productService.save(dummyProduct);
+		FullProductDto savedProduct = productService.save(dummyProduct);
+		assertEquals(savedProduct, productService.findById(savedProduct.getId()));
 
-		ProductDto deletedProduct = productService.delete(savedProduct.getId());
+		FullProductDto deletedProduct = productService.delete(savedProduct.getId());
 
+		assertEquals(savedProduct, deletedProduct);
 		assertThrows(ProductNotFoundException.class, () -> {
-			productService.findById(deletedProduct.getId());
+			productService.findById(savedProduct.getId());
 		});
 	}
 

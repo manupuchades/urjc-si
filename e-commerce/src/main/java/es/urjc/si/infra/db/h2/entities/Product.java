@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
+@Table(name = "PRODUCT")
 @Data
 @Builder
 @NoArgsConstructor
@@ -38,6 +40,6 @@ public class Product {
 	@Builder.Default
 	@ToString.Exclude
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Collection<ProductOrder> product_orders = Collections.emptyList();
+	private Collection<Order> product_orders = Collections.emptyList();
 		
 }

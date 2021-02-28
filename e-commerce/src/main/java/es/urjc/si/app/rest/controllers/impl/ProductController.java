@@ -7,6 +7,12 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -15,41 +21,43 @@ import es.urjc.si.app.rest.dtos.requests.ProductRequestDto;
 import es.urjc.si.app.rest.dtos.responses.ProductResponseDto;
 import es.urjc.si.app.rest.mappers.ProductMapper;
 import es.urjc.si.domain.services.IProductService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
-@Tag(name = "Product", description = "the Product API")
+@RequestMapping("/api/products")
 @AllArgsConstructor
 public class ProductController implements IProductController {
 	
-	private IProductService service;
-
+	private IProductService productService;
 
 	@Override
+	@GetMapping("/")
 	public Collection<ProductResponseDto> getProducts() {
-		return service.findAll()
+		return productService.findAll()
 				.stream()
 				.map(ProductMapper::map)
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public ResponseEntity<ProductResponseDto> createProduct(@Valid ProductRequestDto product) {
-		ProductResponseDto productResponse = ProductMapper.map(service.save(ProductMapper.map(product)));
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productResponse.getId()).toUri();
-		return ResponseEntity.created(location).body(productResponse);
+	@PostMapping("/")
+	public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
+		ProductResponseDto productResponseDto = ProductMapper.map(productService.save(ProductMapper.map(productRequestDto)));
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productResponseDto.getId()).toUri();
+		return ResponseEntity.created(location).body(productResponseDto);
 	}
 
 	@Override
-	public ResponseEntity<ProductResponseDto> getProduct(long id) {
-		return ResponseEntity.ok(ProductMapper.map(service.findById(id)));
+	@GetMapping("/{id}")
+	public ResponseEntity<ProductResponseDto> getProduct(@PathVariable long id) {
+		return ResponseEntity.ok(ProductMapper.map(productService.findById(id)));
 
 	}
 
 	@Override
-	public ResponseEntity<ProductResponseDto> deleteProduct(long id) {
-		return ResponseEntity.ok(ProductMapper.map(service.delete(id)));
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ProductResponseDto> deleteProduct(@PathVariable long id) {
+		return ResponseEntity.ok(ProductMapper.map(productService.delete(id)));
 	}
 
 }

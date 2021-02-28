@@ -1,5 +1,7 @@
 package es.urjc.si.app.rest.dtos.requests;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductRequestDto {
 
-	String name;
+	@NotNull
+	private String name;
 
-	String description;
+	@NotNull
+	private String description;
 	
-	Double price;
+	@NotNull
+	private double price;
 
 }

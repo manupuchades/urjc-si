@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class FullProductDto {
 
-	Long id;
-	
-	String name;
-	
-	String description;
+	private long id;
 
-	Double price;
+	private String name;
+
+	private String description;
+
+	private double price;
 }

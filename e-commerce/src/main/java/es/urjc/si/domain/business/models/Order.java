@@ -16,6 +16,4 @@ public class Order {
 
 	private Long quantity;
 
-	private double amount;
-
 }

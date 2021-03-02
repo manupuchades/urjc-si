@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import es.urjc.si.domain.business.use_cases.ProductUseCase;
 import es.urjc.si.domain.business.use_cases.ShoppingCartUseCase;
 import es.urjc.si.domain.ports.IProductRepository;
+import es.urjc.si.domain.ports.IShoppingCartPublisher;
 import es.urjc.si.domain.ports.IShoppingCartRepository;
 import es.urjc.si.domain.ports.IShoppingCartValidator;
 import es.urjc.si.domain.services.IProductService;
@@ -21,8 +22,8 @@ public class ECommerceConfig {
 
 	@Bean
 	public IShoppingCartService shoppingCartUseCase(IShoppingCartRepository shoppingCartRepositoryAdapter,
-			IProductRepository productRepositoryAdapter, IShoppingCartValidator shoppingCartValidator) {
-		return new ShoppingCartUseCase(shoppingCartRepositoryAdapter, productRepositoryAdapter, shoppingCartValidator);
+			IProductRepository productRepositoryAdapter, IShoppingCartValidator shoppingCartValidator, 	IShoppingCartPublisher shoppingCartPublisher) {
+		return new ShoppingCartUseCase(shoppingCartRepositoryAdapter, productRepositoryAdapter, shoppingCartValidator, shoppingCartPublisher);
 	}
 
 }

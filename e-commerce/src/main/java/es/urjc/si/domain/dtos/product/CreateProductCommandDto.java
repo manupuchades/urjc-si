@@ -1,4 +1,4 @@
-package es.urjc.si.domain.dtos;
+package es.urjc.si.domain.dtos.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCartInputDto {
+public class CreateProductCommandDto {
 		
-	private String customer;
-		
+	private String name;
+	
+	private String description;
+
+	private double price;
 }

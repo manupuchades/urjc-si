@@ -1,7 +1,7 @@
 package es.urjc.si.domain.mappers;
 
 import es.urjc.si.domain.business.models.Product;
-import es.urjc.si.domain.dtos.FullProductDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 
 public class ProductMapper {
 	

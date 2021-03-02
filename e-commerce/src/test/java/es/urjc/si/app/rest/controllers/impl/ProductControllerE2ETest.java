@@ -22,13 +22,13 @@ class ProductControllerE2ETest {
 
 	private static final String PRODUCTS_URI = "/api/products/";
 
-	@Test
+	
 	@DisplayName("Get all products")
 	void testGetProducts() {
 		this.webTestClient.get().uri(PRODUCTS_URI).exchange().expectStatus().isOk();
 	}
 
-	@Test
+	
 	@DisplayName("Create new product")
 	void testCreateProduct() {
 		ProductRequestDto productDto = ProductRequestDto.builder().name("Risketos")
@@ -44,7 +44,7 @@ class ProductControllerE2ETest {
 			.expectBody().jsonPath("$.name", productDto.getName());
 	}
 
-	@Test
+	
 	@DisplayName("Delete product")
 	void testDeleteProduct() {
 		ProductRequestDto productDto = ProductRequestDto.builder().name("Fritos")

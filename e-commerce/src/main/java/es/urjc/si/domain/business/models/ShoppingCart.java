@@ -1,24 +1,31 @@
 package es.urjc.si.domain.business.models;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.UUID;
 
-import es.urjc.si.infra.db.h2.entities.Order;
+import es.urjc.si.domain.mappers.ShoppingCartMapper;
+import es.urjc.si.domain.ports.IShoppingCartValidator;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShoppingCart {
 	
-	private Long id;
+	private long id;
 	
 	private String customer;
 		
 	private boolean finalized;
 	
-	private Collection<Order> orders = Collections.emptyList();
+	private ArrayList<Order> orders;
+	
+	public boolean validate(IShoppingCartValidator shoppingCartValidator) {
+		return shoppingCartValidator.validate(ShoppingCartMapper.map(this));
+	}
 
 }

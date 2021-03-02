@@ -1,4 +1,6 @@
-package es.urjc.si.domain.dtos;
+package es.urjc.si.app.rest.dtos.responses;
+
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
-	
-	private long id;
+public class CartExpenditureResponseDto {
 
-	private FullProductDto product;
-	
-	private int quantity;
+	private long cartId;
+
+	private double expenditure;
 
 }

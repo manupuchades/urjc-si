@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
-import es.urjc.si.domain.dtos.FullShoppingCartDto;
+import es.urjc.si.domain.dtos.shoppingCart.FullShoppingCartDto;
 import es.urjc.si.domain.ports.IShoppingCartValidator;
 import lombok.NoArgsConstructor;
 

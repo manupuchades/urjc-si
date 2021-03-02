@@ -1,6 +1,7 @@
 package es.urjc.si.app.rest.dtos.responses;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

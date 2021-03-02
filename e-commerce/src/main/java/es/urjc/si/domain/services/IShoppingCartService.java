@@ -1,20 +1,21 @@
 package es.urjc.si.domain.services;
 
-import es.urjc.si.domain.dtos.FullShoppingCartDto;
-import es.urjc.si.domain.dtos.OrderInputDto;
-import es.urjc.si.domain.dtos.ShoppingCartInputDto;
+import es.urjc.si.domain.dtos.shoppingCart.AddOrderCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.CreateShoppingCartCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.DeleteOrderCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.FullShoppingCartDto;
 
 public interface IShoppingCartService {
 
 	FullShoppingCartDto findById(long id);
 
-	FullShoppingCartDto save(ShoppingCartInputDto productDto);
+	FullShoppingCartDto save(CreateShoppingCartCommandDto productDto);
 
 	FullShoppingCartDto delete(long id);
 
 	FullShoppingCartDto finalize(long id);
 
-	FullShoppingCartDto addOrder(OrderInputDto orderDto);
+	FullShoppingCartDto addOrder(AddOrderCommandDto orderDto);
 
-	FullShoppingCartDto deleteOrder(OrderInputDto orderDto);
+	FullShoppingCartDto deleteOrder(DeleteOrderCommandDto orderDto);
 }

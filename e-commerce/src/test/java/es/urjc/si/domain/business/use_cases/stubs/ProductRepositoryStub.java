@@ -3,8 +3,8 @@ package es.urjc.si.domain.business.use_cases.stubs;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 import es.urjc.si.domain.exceptions.ProductNotFoundException;
 import es.urjc.si.domain.ports.IProductRepository;
 
@@ -34,7 +34,7 @@ public class ProductRepositoryStub implements IProductRepository {
 	}
 
 	@Override
-	public FullProductDto save(ProductInputDto product) {
+	public FullProductDto save(CreateProductCommandDto product) {
 		FullProductDto p = FullProductDto.builder().id(Long.valueOf(index)).name(product.getName())
 				.description(product.getDescription()).price(product.getPrice()).build();
 		products.add(index, p);

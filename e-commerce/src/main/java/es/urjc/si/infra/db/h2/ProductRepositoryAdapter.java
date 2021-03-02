@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 import es.urjc.si.domain.exceptions.ProductNotFoundException;
 import es.urjc.si.domain.ports.IProductRepository;
 import es.urjc.si.infra.db.h2.mappers.ProductMapper;
@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class ProductAdapter implements IProductRepository {
+public class ProductRepositoryAdapter implements IProductRepository {
 	
 	private ProductRepository productRepository;
 
@@ -34,7 +34,7 @@ public class ProductAdapter implements IProductRepository {
 	}
 
 	@Override
-	public FullProductDto save(ProductInputDto product) {
+	public FullProductDto save(CreateProductCommandDto product) {
 		return ProductMapper.map(productRepository.save(ProductMapper.map(product)));
 	}
 

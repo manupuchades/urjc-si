@@ -1,6 +1,7 @@
-package es.urjc.si.domain.dtos;
+package es.urjc.si.domain.dtos.shoppingCart;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

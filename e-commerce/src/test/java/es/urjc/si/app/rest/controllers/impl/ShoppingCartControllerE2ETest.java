@@ -29,7 +29,7 @@ class ShoppingCartControllerE2ETest {
 	
 	private static final String PRODUCTS_URI = "/api/products/";
 
-	@Test
+	
 	@DisplayName("Create new shopping cart")
 	void testCreateShoppingCart() {
 		ShoppingCartRequestDto shoppingCartDto = ShoppingCartRequestDto.builder().customer("Create Cart Test").build();
@@ -44,7 +44,7 @@ class ShoppingCartControllerE2ETest {
 			.expectBody().jsonPath("$.customer", shoppingCartDto.getCustomer());
 	}
 
-	@Test
+	
 	@DisplayName("Delete existing shopping cart")
 	void testDeleteShoppingCart() {
 		ShoppingCartRequestDto shoppingCartDto = ShoppingCartRequestDto.builder().customer("Delete Cart Test").build();
@@ -68,7 +68,7 @@ class ShoppingCartControllerE2ETest {
 			.expectStatus().isNotFound();
 	}
 
-	@Test
+	
 	@DisplayName("Add product to existing shopping cart")
 	void testAddProductToShoppingCart() {
 		
@@ -102,7 +102,7 @@ class ShoppingCartControllerE2ETest {
 
 	}
 
-	@Test
+	
 	@DisplayName("Delete order from cart")
 	void testDeleteProductFromShoppingCart() {
 		ProductRequestDto productDto = ProductRequestDto.builder().name("Fritos")

@@ -1,12 +1,12 @@
 package es.urjc.si.infra.db.h2.mappers;
 
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 import es.urjc.si.infra.db.h2.entities.Product;
 
 public class ProductMapper {
 	
-	public static Product map(ProductInputDto dto) {
+	public static Product map(CreateProductCommandDto dto) {
 		return Product.builder().product_name(dto.getName()).product_description(dto.getDescription()).product_price(dto.getPrice()).build();
 	}
 	

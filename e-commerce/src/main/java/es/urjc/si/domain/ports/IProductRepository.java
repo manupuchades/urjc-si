@@ -2,8 +2,8 @@ package es.urjc.si.domain.ports;
 
 import java.util.Collection;
 
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 
 public interface IProductRepository {
 
@@ -11,7 +11,7 @@ public interface IProductRepository {
 	
 	FullProductDto findById(long id);
 	
-	FullProductDto save(ProductInputDto product);
+	FullProductDto save(CreateProductCommandDto product);
 	
 	FullProductDto delete(long id);
 

@@ -3,7 +3,7 @@ package es.urjc.si.infra.db.h2.mappers;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import es.urjc.si.domain.dtos.OrderDto;
+import es.urjc.si.domain.dtos.shoppingCart.OrderDto;
 import es.urjc.si.infra.db.h2.entities.Order;
 
 public class OrderMapper {

@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import es.urjc.si.domain.business.use_cases.stubs.ProductRepositoryStub;
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 import es.urjc.si.domain.exceptions.ProductNotFoundException;
 import es.urjc.si.domain.ports.IProductRepository;
 import es.urjc.si.domain.services.IProductService;
@@ -21,13 +21,13 @@ class ProductUseCaseTest {
 
 	IProductService productService;
 
-	ProductInputDto dummyProduct;
+	CreateProductCommandDto dummyProduct;
 
 	@BeforeEach
 	void setUp() {
 		productService = new ProductUseCase(productRepository);
 
-		dummyProduct = ProductInputDto.builder().name("Pipas Facundo").description("Pipas de Girasol blanquilla")
+		dummyProduct = CreateProductCommandDto.builder().name("Pipas Facundo").description("Pipas de Girasol blanquilla")
 				.price(Double.valueOf("1.91")).build();
 	}
 

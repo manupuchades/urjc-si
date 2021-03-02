@@ -2,8 +2,8 @@ package es.urjc.si.domain.business.use_cases;
 
 import java.util.Collection;
 
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
 import es.urjc.si.domain.ports.IProductRepository;
 import es.urjc.si.domain.services.IProductService;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class ProductUseCase implements IProductService {
 	}
 
 	@Override
-	public FullProductDto save(ProductInputDto productDto) {
+	public FullProductDto save(CreateProductCommandDto productDto) {
 		return productRepository.save(productDto);
 	}
 

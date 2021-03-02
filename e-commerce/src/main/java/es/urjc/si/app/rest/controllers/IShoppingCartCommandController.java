@@ -14,55 +14,41 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "ShoppingCart", description = "the Shopping Cart API")
-public interface IShoppingCartController {
+public interface IShoppingCartCommandController {
 
 	@Operation(summary = "Create new shopping cart.")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Shopping cart to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = ShoppingCartRequestDto.class)))
 	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "Shopping cart created succesfully."),
-			@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content) })
-	public ResponseEntity<ShoppingCartResponseDto> createShoppingCart(
+			@ApiResponse(responseCode = "200", description = "Request received")})
+	public ResponseEntity<String> createShoppingCart(
 			@Parameter(description = "the shopping cart") @RequestBody ShoppingCartRequestDto shoppingCartRequestDto);
-
-	@Operation(summary = "Get a shopping cart by its id")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Found the shopping cart", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = ShoppingCartResponseDto.class)) }),
-			@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Shopping cart not found", content = @Content) })
-	public ResponseEntity<ShoppingCartResponseDto> getShoppingCart(
-			@Parameter(description = "the shoppingCart id") long id);
 	
 	@Operation(summary = "Finalize shopping cart by its id")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Shopping cart finalized", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = ShoppingCartResponseDto.class)) }),
-			@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Shopping cart not found", content = @Content),
-			@ApiResponse(responseCode = "409", description = "Shopping cart could not be finalized", content = @Content) })
-	public ResponseEntity<ShoppingCartResponseDto> finalizeShoppingCart(
+			@ApiResponse(responseCode = "200", description = "Request received") })
+	public ResponseEntity<String> finalizeShoppingCart(
 			@Parameter(description = "the shoppingCart id") long id);
 
 	@Operation(summary = "Delete shopping cart")
 	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "Shopping cart deleted succesfully."),
-			@ApiResponse(responseCode = "404", description = "Shopping cart not found", content = @Content) })
-	public ResponseEntity<ShoppingCartResponseDto> deleteShoppingCart(
+			@ApiResponse(responseCode = "200", description = "Request received")})
+	public ResponseEntity<String> deleteShoppingCart(
 			@Parameter(description = "the shopping cart id") long id);
 
 	@Operation(summary = "Add product to shopping cart.")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Shopping cart to be created", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = ShoppingCartRequestDto.class)))
 	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "Shopping cart created succesfully."),
-			@ApiResponse(responseCode = "400", description = "Invalid input", content = @Content) })
-	public ResponseEntity<ShoppingCartResponseDto> addProductToShoppingCart(
+			@ApiResponse(responseCode = "200", description = "Request received")})
+	public ResponseEntity<String> addProductToShoppingCart(
 			@Parameter(description = "the shopping cart id") long cart_id,
 			@Parameter(description = "the product id") long prod_id,
 			@Parameter(description = "the quantity") int prod_quantity);
 
 	@Operation(summary = "Delete product from shopping cart")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Product deleted succesfully from shopping cart."),
-			@ApiResponse(responseCode = "404", description = "Product or shopping cart not found", content = @Content) })
-	public ResponseEntity<ShoppingCartResponseDto> deleteProductFromShoppingCart(
+			@ApiResponse(responseCode = "200", description = "Request received")})
+	public ResponseEntity<String> deleteProductFromShoppingCart(
 			@Parameter(description = "the shopping cart id") long cart_id,
 			@Parameter(description = "the product id") long prod_id);
 

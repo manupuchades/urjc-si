@@ -2,11 +2,12 @@ package es.urjc.si.domain.business.use_cases.stubs;
 
 import java.util.ArrayList;
 
-import es.urjc.si.domain.dtos.FullProductDto;
-import es.urjc.si.domain.dtos.FullShoppingCartDto;
-import es.urjc.si.domain.dtos.OrderDto;
-import es.urjc.si.domain.dtos.OrderInputDto;
-import es.urjc.si.domain.dtos.ShoppingCartInputDto;
+import es.urjc.si.domain.dtos.product.FullProductDto;
+import es.urjc.si.domain.dtos.shoppingCart.AddOrderCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.CreateShoppingCartCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.DeleteOrderCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.FullShoppingCartDto;
+import es.urjc.si.domain.dtos.shoppingCart.OrderDto;
 import es.urjc.si.domain.exceptions.ShoppingCartNotFoundException;
 import es.urjc.si.domain.ports.IProductRepository;
 import es.urjc.si.domain.ports.IShoppingCartRepository;
@@ -35,8 +36,8 @@ public class ShoppingCartRepositoryStub implements IShoppingCartRepository{
 	}
 
 	@Override
-	public FullShoppingCartDto save(ShoppingCartInputDto shoppingCart) {
-		FullShoppingCartDto p = FullShoppingCartDto.builder().id(Long.valueOf(index)).customer(shoppingCart.getCustomer()).finalized(false).build();
+	public FullShoppingCartDto save(CreateShoppingCartCommandDto shoppingCart) {
+		FullShoppingCartDto p = FullShoppingCartDto.builder().id(index).customer(shoppingCart.getCustomer()).finalized(false).build();
 		shoppingCarts.add(index, p);
 		index++;
 
@@ -57,7 +58,7 @@ public class ShoppingCartRepositoryStub implements IShoppingCartRepository{
 	}
 
 	@Override
-	public FullShoppingCartDto addOrder(OrderInputDto orderDto) {
+	public FullShoppingCartDto addOrder(AddOrderCommandDto orderDto) {
 		
 		FullShoppingCartDto sc = shoppingCarts.get((int) orderDto.getShoppingCartId());
 		FullProductDto p = products.findById(orderDto.getProductId());
@@ -69,7 +70,7 @@ public class ShoppingCartRepositoryStub implements IShoppingCartRepository{
 	}
 
 	@Override
-	public FullShoppingCartDto deleteOrder(OrderInputDto orderDto) {
+	public FullShoppingCartDto deleteOrder(DeleteOrderCommandDto orderDto) {
 		FullShoppingCartDto sc = shoppingCarts.get((int) orderDto.getShoppingCartId());
 		
 		sc.getOrders().removeIf(o -> o.getProduct().getId() == orderDto.getProductId());

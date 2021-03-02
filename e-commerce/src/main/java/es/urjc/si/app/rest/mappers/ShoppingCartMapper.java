@@ -3,9 +3,9 @@ package es.urjc.si.app.rest.mappers;
 import es.urjc.si.app.rest.dtos.requests.ProductRequestDto;
 import es.urjc.si.app.rest.dtos.requests.ShoppingCartRequestDto;
 import es.urjc.si.app.rest.dtos.responses.ShoppingCartResponseDto;
-import es.urjc.si.domain.dtos.FullShoppingCartDto;
-import es.urjc.si.domain.dtos.ProductInputDto;
-import es.urjc.si.domain.dtos.ShoppingCartInputDto;
+import es.urjc.si.domain.dtos.product.CreateProductCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.CreateShoppingCartCommandDto;
+import es.urjc.si.domain.dtos.shoppingCart.FullShoppingCartDto;
 
 public class ShoppingCartMapper {
 	
@@ -14,12 +14,12 @@ public class ShoppingCartMapper {
 				.orders(OrderMapper.map(dto.getOrders())).build();
 	}
 
-	public static ProductInputDto map(ProductRequestDto p) {
-		return ProductInputDto.builder().name(p.getName()).description(p.getDescription()).price(p.getPrice()).build();
+	public static CreateProductCommandDto map(ProductRequestDto p) {
+		return CreateProductCommandDto.builder().name(p.getName()).description(p.getDescription()).price(p.getPrice()).build();
 	}
 
-	public static ShoppingCartInputDto map(ShoppingCartRequestDto shoppingCartRequestDto) {
-		return ShoppingCartInputDto.builder().customer(shoppingCartRequestDto.getCustomer()).build();
+	public static CreateShoppingCartCommandDto map(ShoppingCartRequestDto shoppingCartRequestDto) {
+		return CreateShoppingCartCommandDto.builder().customer(shoppingCartRequestDto.getCustomer()).build();
 	}
 
 }

@@ -1,11 +1,12 @@
 package es.urjc.si.domain.business.models;
 
-import es.urjc.si.infra.db.h2.entities.Product;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -14,6 +15,6 @@ public class Order {
 
 	private Product product;
 
-	private Long quantity;
+	private int quantity;
 
 }
